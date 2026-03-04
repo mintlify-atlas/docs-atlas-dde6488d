@@ -1,0 +1,185 @@
+---
+title: Group Patterns
+description: Organize icons into custom groups using pattern matching
+---
+
+<ParamField path="JT-View-Exports-SVG.groupPatterns" type="object" default="{}">
+  An object mapping group names to file path patterns for organizing icons into custom categories.
+</ParamField>
+
+## Overview
+
+The `groupPatterns` setting allows you to organize your SVG icons into logical groups based on file path patterns. This makes it easier to navigate and find icons in the extension panel, especially in large projects with many icons.
+
+## Configuration
+
+The setting is an object where:
+- **Keys** are group names (how the group will appear in the UI)
+- **Values** are glob patterns or file path patterns to match icon files
+
+### Default Behavior
+
+By default, this is an empty object (`{}`), and icons are organized based on their directory structure.
+
+## Examples
+
+### Basic Pattern Matching
+
+Group icons by directory:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "UI Icons": "**/ui/**",
+    "Social Icons": "**/social/**",
+    "Brand Icons": "**/brands/**"
+  }
+}
+```
+
+### Multiple Patterns per Group
+
+Use patterns to match multiple locations:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Core Icons": "**/icons/core/**",
+    "Feature Icons": "**/features/**/icons/**",
+    "Shared": "**/shared/**"
+  }
+}
+```
+
+### Name-Based Grouping
+
+Group icons by filename patterns:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Outlined": "**/*-outline.svg",
+    "Filled": "**/*-filled.svg",
+    "Duotone": "**/*-duotone.svg"
+  }
+}
+```
+
+### Project Structure Example
+
+For a typical React project structure:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Navigation": "**/components/navigation/**",
+    "Actions": "**/components/actions/**",
+    "Status": "**/components/status/**",
+    "Assets": "**/assets/icons/**",
+    "Public": "**/public/icons/**"
+  }
+}
+```
+
+### Mixed Criteria
+
+Combine different organizational strategies:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Material Icons": "**/material-icons/**",
+    "Custom Icons": "**/custom/**",
+    "Small Icons": "**/*-sm.svg",
+    "Large Icons": "**/*-lg.svg",
+    "Header": "**/layouts/header/**"
+  }
+}
+```
+
+## Pattern Syntax
+
+The pattern matching supports glob-style patterns:
+
+- `*` - Matches any characters except path separator
+- `**` - Matches any characters including path separators (recursive)
+- `?` - Matches any single character
+- `[abc]` - Matches any character in the set
+- `{a,b}` - Matches either pattern a or pattern b
+
+### Pattern Examples
+
+| Pattern | Matches |
+|---------|----------|
+| `**/ui/**` | Any file in a `ui` directory at any level |
+| `**/*-icon.svg` | Any SVG file ending with `-icon.svg` |
+| `**/icons/*.svg` | SVG files directly in any `icons` directory |
+| `**/icons/**/*.svg` | SVG files anywhere under any `icons` directory |
+| `src/assets/**` | Any file under `src/assets/` |
+
+## Best Practices
+
+1. **Use descriptive group names**: Choose names that clearly describe the icon category
+2. **Avoid overlapping patterns**: Icons matching multiple patterns may appear in multiple groups
+3. **Start with broad categories**: Begin with high-level groups and refine as needed
+4. **Match your project structure**: Align groups with your existing directory organization
+5. **Consider icon variants**: Group different variants (outlined, filled) separately if useful
+
+## Use Cases
+
+### By Feature Area
+
+Organize icons by application feature:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Dashboard": "**/dashboard/**",
+    "Profile": "**/profile/**",
+    "Settings": "**/settings/**",
+    "Analytics": "**/analytics/**"
+  }
+}
+```
+
+### By Icon Library
+
+Separate different icon libraries:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "Heroicons": "**/heroicons/**",
+    "Feather": "**/feather/**",
+    "Custom": "**/custom-icons/**"
+  }
+}
+```
+
+### By Size
+
+Group by icon dimensions:
+
+```json
+{
+  "JT-View-Exports-SVG.groupPatterns": {
+    "16px": "**/*-16.svg",
+    "24px": "**/*-24.svg",
+    "32px": "**/*-32.svg"
+  }
+}
+```
+
+## How It Works
+
+1. The extension scans your workspace for SVG icon files
+2. Each icon file path is tested against your defined patterns
+3. Icons are placed into groups based on pattern matches
+4. Groups appear in the extension panel with matched icons
+5. Icons not matching any pattern appear in a default group
+
+## Related Settings
+
+- [Assets Path](/configuration/assets-path) - Define where to scan for icons
+- [Ignore Directories](/configuration/ignore-directories) - Exclude directories from scanning
+- [Settings Overview](/configuration/settings) - View all available settings

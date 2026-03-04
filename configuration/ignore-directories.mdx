@@ -1,0 +1,100 @@
+---
+title: Ignore Directories
+description: Exclude specific directories from SVG icon scanning
+---
+
+<ParamField path="JT-View-Exports-SVG.ignoreDirectories" type="array" default="[]">
+  An array of directory paths to exclude from the SVG icon scanning process.
+</ParamField>
+
+## Overview
+
+The `ignoreDirectories` setting allows you to exclude specific directories from being scanned for SVG icons. This is useful for:
+
+- Improving scan performance by skipping large directories
+- Excluding third-party or generated code
+- Preventing irrelevant icons from appearing in the extension
+- Avoiding scanning of node_modules, build outputs, or other non-source directories
+
+## Configuration
+
+### Basic Example
+
+Exclude common directories:
+
+```json
+{
+  "JT-View-Exports-SVG.ignoreDirectories": [
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}
+```
+
+### Exclude Nested Paths
+
+Specify nested directories to ignore:
+
+```json
+{
+  "JT-View-Exports-SVG.ignoreDirectories": [
+    "node_modules",
+    "src/vendor",
+    "public/external-assets",
+    ".next",
+    ".cache"
+  ]
+}
+```
+
+### Common Patterns
+
+Typical directories to exclude in a React/TypeScript project:
+
+```json
+{
+  "JT-View-Exports-SVG.ignoreDirectories": [
+    "node_modules",
+    "dist",
+    "build",
+    "out",
+    ".next",
+    ".cache",
+    "coverage",
+    ".git"
+  ]
+}
+```
+
+## Path Format
+
+- Paths can be relative to the workspace root (e.g., `src/vendor`)
+- Use directory names without leading `./` for simplicity
+- Path separators should use forward slashes (`/`)
+- Exact directory name matching is used
+
+## Performance Benefits
+
+Excluding directories can significantly improve scanning performance:
+
+- **node_modules**: Often contains thousands of files
+- **Build outputs**: Generated files that don't need scanning
+- **Cache directories**: Temporary files that change frequently
+- **Test fixtures**: Large test data sets
+
+## Best Practices
+
+1. **Always exclude node_modules**: This directory is typically very large and doesn't contain source icons
+2. **Exclude build outputs**: Directories like `dist`, `build`, `out` contain generated files
+3. **Exclude cache directories**: Framework-specific cache folders (`.next`, `.nuxt`, etc.)
+4. **Test performance**: If scans are slow, add more directories to the ignore list
+
+## Default Behavior
+
+By default, the array is empty (`[]`), meaning all directories will be scanned unless explicitly ignored. The extension does not automatically ignore any directories, so you should configure this setting based on your project structure.
+
+## Related Settings
+
+- [Assets Path](/configuration/assets-path) - Specify directories to scan
+- [Settings Overview](/configuration/settings) - View all available settings

@@ -1,0 +1,74 @@
+---
+title: Assets Path
+description: Configure custom paths for SVG icon scanning
+---
+
+<ParamField path="JT-View-Exports-SVG.assetsPath" type="array" default="[]">
+  An array of custom file paths where the extension should search for SVG icon files.
+</ParamField>
+
+## Overview
+
+The `assetsPath` setting allows you to specify additional directories where View Exports SVG should look for icon files. By default, the extension scans your entire workspace, but you can use this setting to:
+
+- Focus scanning on specific directories
+- Include icon files from outside your workspace
+- Improve performance by limiting the scan scope
+
+## Configuration
+
+### Basic Example
+
+Add a single assets directory:
+
+```json
+{
+  "JT-View-Exports-SVG.assetsPath": [
+    "./src/assets/icons"
+  ]
+}
+```
+
+### Multiple Paths
+
+Specify multiple directories to scan:
+
+```json
+{
+  "JT-View-Exports-SVG.assetsPath": [
+    "./src/assets/icons",
+    "./public/icons",
+    "./components/ui/icons"
+  ]
+}
+```
+
+### Absolute Paths
+
+You can also use absolute paths:
+
+```json
+{
+  "JT-View-Exports-SVG.assetsPath": [
+    "/Users/username/projects/shared-icons",
+    "./src/icons"
+  ]
+}
+```
+
+## Path Format
+
+- **Relative paths**: Resolved relative to the workspace root (e.g., `./src/icons`)
+- **Absolute paths**: Used as-is (e.g., `/home/user/icons`)
+- **Path separators**: Use forward slashes (`/`) on all platforms
+
+## Best Practices
+
+1. **Be specific**: Point to actual icon directories rather than broad paths to improve scan performance
+2. **Use relative paths**: Makes your configuration portable across different machines
+3. **Combine with ignore**: Use with [ignoreDirectories](/configuration/ignore-directories) to fine-tune scanning
+
+## Related Settings
+
+- [Ignore Directories](/configuration/ignore-directories) - Exclude specific paths from scanning
+- [Group Patterns](/configuration/group-patterns) - Organize found icons into custom groups

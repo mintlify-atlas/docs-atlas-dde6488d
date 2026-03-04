@@ -1,0 +1,180 @@
+---
+title: Default Icon Properties
+description: Configure default properties for SVG icon preview and rendering
+---
+
+<ParamField path="JT-View-Exports-SVG.defaultIconProperties" type="object">
+  An object containing default property values applied to SVG icons in the preview panel and developer tools.
+</ParamField>
+
+## Overview
+
+The `defaultIconProperties` setting defines default values for various SVG and component properties. These properties are used when previewing and interacting with icons in the extension's interface.
+
+## Default Values
+
+The extension comes with the following default configuration:
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "className": "",
+    "color": "#0a0a0a",
+    "fill": "#0a0a0a",
+    "height": "28",
+    "size": "28",
+    "state": "false",
+    "stroke": "#0a0a0a",
+    "strokeColor": "#0a0a0a",
+    "strokeWidth": "0.2",
+    "style": "{}",
+    "sx": "{}",
+    "width": "28"
+  }
+}
+```
+
+## Available Properties
+
+### Size Properties
+
+<ParamField path="size" type="string" default="28">
+  General size dimension for the icon. Often used by icon libraries as a unified size prop.
+</ParamField>
+
+<ParamField path="width" type="string" default="28">
+  Width of the icon in pixels or other CSS units.
+</ParamField>
+
+<ParamField path="height" type="string" default="28">
+  Height of the icon in pixels or other CSS units.
+</ParamField>
+
+### Color Properties
+
+<ParamField path="color" type="string" default="#0a0a0a">
+  Primary color of the icon. Often used for single-color icons.
+</ParamField>
+
+<ParamField path="fill" type="string" default="#0a0a0a">
+  Fill color for SVG paths and shapes.
+</ParamField>
+
+<ParamField path="stroke" type="string" default="#0a0a0a">
+  Stroke (outline) color for SVG elements.
+</ParamField>
+
+<ParamField path="strokeColor" type="string" default="#0a0a0a">
+  Alternative stroke color property, used by some icon libraries.
+</ParamField>
+
+<ParamField path="strokeWidth" type="string" default="0.2">
+  Width of the stroke (outline) for SVG elements.
+</ParamField>
+
+### Styling Properties
+
+<ParamField path="className" type="string" default="">
+  CSS class name to apply to the icon component.
+</ParamField>
+
+<ParamField path="style" type="string" default="{}">
+  Inline style object in JSON format for React/JSX components.
+</ParamField>
+
+<ParamField path="sx" type="string" default="{}">
+  Style object for MUI (Material-UI) components, in JSON format.
+</ParamField>
+
+### State Properties
+
+<ParamField path="state" type="string" default="false">
+  Custom state property that can be used for conditional rendering or icon variations.
+</ParamField>
+
+## Configuration Examples
+
+### Larger Icons with Blue Color
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "size": "32",
+    "width": "32",
+    "height": "32",
+    "color": "#0066cc",
+    "fill": "#0066cc"
+  }
+}
+```
+
+### Material-UI Styling
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "size": "24",
+    "sx": "{\"color\": \"primary.main\"}"
+  }
+}
+```
+
+### Outlined Icons
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "fill": "none",
+    "stroke": "#333333",
+    "strokeWidth": "2",
+    "strokeColor": "#333333"
+  }
+}
+```
+
+### Custom Class Name
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "className": "icon-default",
+    "size": "24"
+  }
+}
+```
+
+## Property Types
+
+All property values are stored as strings. For object properties like `style` and `sx`, use JSON string format:
+
+```json
+{
+  "style": "{\"marginRight\": \"8px\", \"display\": \"inline-block\"}"
+}
+```
+
+## Custom Properties
+
+You can add custom properties beyond the defaults. The setting accepts additional properties through `additionalProperties`:
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "size": "28",
+    "customProp": "customValue",
+    "dataTestId": "icon-component"
+  }
+}
+```
+
+## Use Cases
+
+1. **Framework-specific props**: Configure properties that match your UI library (React, Material-UI, etc.)
+2. **Team consistency**: Ensure all developers preview icons with the same default properties
+3. **Project theming**: Match icon preview properties to your project's design system
+4. **Testing**: Set specific properties for testing icon rendering
+
+## Related Settings
+
+- [Settings Overview](/configuration/settings) - View all available settings
+- [Group Patterns](/configuration/group-patterns) - Organize icons into custom groups

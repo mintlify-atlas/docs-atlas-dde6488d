@@ -1,0 +1,274 @@
+---
+title: Workspace Scanning
+description: Automatically discover SVG components across your entire project
+---
+
+Workspace Scanning is the core feature that discovers all SVG components in your project. It intelligently searches through your files, extracts SVG exports, and builds a complete catalog of your icon library.
+
+## Starting a Scan
+
+There are multiple ways to initiate a workspace scan:
+
+### Command Palette
+
+1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Run **"View Exports SVG: Start Scanning"**
+3. The extension scans your entire workspace for SVG components
+
+### Context Menu
+
+Right-click on:
+- A single file (scans that file)
+- A folder (scans all files in that folder)
+- Multiple selected files (scans all selected files)
+
+Then select **"View Exports SVG 🔍"** from the context menu.
+
+<Tip>
+The first scan of a large project may take some time. Subsequent scans are much faster thanks to the caching system.
+</Tip>
+
+## How Scanning Works
+
+The scanning process follows these steps:
+
+### 1. Workspace Discovery
+
+The extension starts by finding files to scan:
+
+```typescript
+// Scans workspace folders for allowed files
+export async function scanningWorkspace(): Promise<Uri[]> {
+  const workspaceFolders = workspace.workspaceFolders
+  if (!isEmpty(workspaceFolders)) {
+    const files = await allowedFilesInFolder(workspaceFolders[0].uri)
+    await config.updateDate() // Update last scan timestamp
+  }
+  return files
+}
+```
+
+### 2. File Type Filtering
+
+Only specific file types are scanned:
+
+- **JavaScript**: `.js`, `.jsx`
+- **TypeScript**: `.ts`, `.tsx`
+- **Excludes**: `.d.ts` declaration files
+
+Regex pattern used:
+```typescript
+const REGEX_FILE = /^(?!.*\.d\.ts$).*\.((js|jsx|ts|tsx))$/i
+```
+
+<Note>
+The extension only scans JavaScript and TypeScript files. Other file formats are ignored to optimize performance.
+</Note>
+
+### 3. Directory Exclusion
+
+Certain directories are automatically excluded from scanning:
+
+- `node_modules/`
+- `.git/`
+- `dist/`, `build/`, `out/`
+- Any directories matching your configured ignore patterns
+
+You can customize ignored directories in the extension settings.
+
+### 4. SVG Component Extraction
+
+For each file, the extension:
+
+1. Parses the file content to find component declarations
+2. Identifies SVG-containing exports
+3. Extracts component metadata (name, declaration type, location)
+4. Validates SVG structure
+5. Detects animation elements
+
+## Caching System
+
+The extension uses an intelligent caching mechanism to speed up subsequent scans:
+
+### File Modification Cache
+
+Tracks the last modified timestamp of each file:
+
+```typescript
+class FileModifiedCacheController<T> {
+  private cache: Record<string, { value: T; lastModified: number }>
+  
+  get(key: string, lastModified: number): T | undefined {
+    const item = this.cache[key]
+    // Return cached value only if file hasn't been modified
+    if (lastModified > item.lastModified) {
+      return undefined // File changed, re-scan needed
+    }
+    return item.value
+  }
+}
+```
+
+### Cache Types
+
+The extension maintains several caches:
+
+1. **Declaration Cache** (`declaration_cache.json`)
+   - Stores parsed component declarations
+   - Keyed by file path and modification time
+
+2. **Components Cache** (`components_cache.json`)
+   - Stores extracted SVG component data
+   - Includes component metadata and properties
+
+3. **Favorites Cache** (`favorites_cache.json`)
+   - Persists your favorite icons
+   - Synced across workspace sessions
+
+4. **Recent Icons Cache** (`recent_cache.json`)
+   - Tracks recently used components
+   - Limited to configurable number of items
+
+<Accordion title="Cache Storage Location">
+  All cache files are stored in the extension's global storage directory:
+  
+  ```
+  ~/.vscode/extensions/JairTorres1003.jt-view-exports-svg-*/globalStorage/cache/
+  ```
+  
+  The cache is automatically managed and doesn't require manual intervention.
+</Accordion>
+
+## Scan Performance
+
+### Optimization Strategies
+
+1. **Incremental Scanning**
+   - Only re-scans files that have been modified
+   - Uses file modification timestamps for comparison
+
+2. **Parallel Processing**
+   - Scans multiple files concurrently
+   - Utilizes Promise.all for batch operations
+
+3. **Smart Filtering**
+   - Excludes directories before traversing
+   - Filters by file extension early in the process
+
+4. **Cached Results**
+   - Returns cached data for unchanged files
+   - Reduces parsing overhead significantly
+
+<Tip>
+For best performance, configure your ignored directories to exclude large folders like `node_modules` and build outputs.
+</Tip>
+
+## Scan Results
+
+After scanning completes:
+
+1. **Dashboard/Home Update**
+   - The main view updates with discovered components
+   - Components are grouped by file or component type
+
+2. **Scan Metadata**
+   - Total files scanned is displayed
+   - Last scan date is recorded in settings
+
+3. **Error Handling**
+   - Files with parsing errors are flagged
+   - Error messages are available in the Info panel
+
+### Result Display
+
+Components are organized in the interface:
+
+```typescript
+// Components are grouped for display
+interface ViewExportSVG {
+  groupKind: { id: string; label: string }
+  files: Uri[]
+  components: SVGComponent[]
+}
+```
+
+## Monitoring Scan Progress
+
+The extension provides visual feedback during scanning:
+
+- **Loading screen** appears while scanning
+- **Progress indicator** shows extraction status
+- **File count** displays number of processed files
+- **Completion notification** when scan finishes
+
+<Note>
+You can continue working in VS Code while a scan is in progress. The webview panel will update automatically when scanning completes.
+</Note>
+
+## Manual Refresh
+
+You can trigger a refresh of specific components:
+
+- Click the **refresh button** on a component group
+- This re-scans only the files in that group
+- Useful after making changes to icon files
+
+## Configuration Options
+
+### Ignored Directories
+
+Customize which directories to exclude:
+
+```json
+{
+  "viewExportsSvg.ignoreDirectories": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**"
+  ]
+}
+```
+
+### Recent Icons Limit
+
+Control how many recent icons to track:
+
+```json
+{
+  "viewExportsSvg.recentIconsLimit": 20
+}
+```
+
+<Accordion title="Technical Implementation">
+  Key files involved in workspace scanning:
+  
+  - `src/commands/scanning.ts` - Scan command implementation
+  - `src/utilities/files/scanning.ts` - Core scanning logic
+  - `src/utilities/files/allowedFilesInFolder.ts` - File discovery
+  - `src/utilities/files/processFiles.ts` - File processing
+  - `src/controllers/cache/` - Caching system controllers
+</Accordion>
+
+## Troubleshooting
+
+### Scan Not Finding Icons
+
+- Ensure files have `.js`, `.jsx`, `.ts`, or `.tsx` extensions
+- Check that directories aren't in the ignore list
+- Verify SVG components are properly exported
+
+### Slow Scan Performance
+
+- Add large directories to the ignore list
+- Clear the cache and restart VS Code
+- Reduce the number of files in your workspace
+
+### Cache Issues
+
+- Clear all caches via extension settings
+- Manually delete cache files from global storage
+- Restart VS Code to reinitialize caches
+
+<Tip>
+If you encounter issues, try clearing the cache and running a fresh scan. The cache files are automatically regenerated.
+</Tip>

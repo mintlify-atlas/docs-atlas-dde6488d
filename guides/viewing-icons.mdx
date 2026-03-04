@@ -1,0 +1,105 @@
+---
+title: Viewing Icons
+description: Learn the multiple ways to open and view your SVG icons in the View Exports SVG extension
+---
+
+View Exports SVG provides multiple convenient ways to access and visualize your SVG component library. This guide covers all the methods available to open the viewer and start exploring your icons.
+
+## Opening the Viewer
+
+There are three primary ways to launch the View Exports SVG viewer:
+
+<Steps>
+  <Step title="Context Menu (Explorer)">
+    Right-click on any JavaScript/TypeScript file in the Explorer sidebar and select **View Exports SVG 🔍**.
+    
+    This method works for:
+    - Individual files (`.js`, `.jsx`, `.ts`, `.tsx`)
+    - Multiple selected files
+    - Folders (scans all compatible files within)
+    
+    <Note>
+      The context menu only appears for files matching these conditions:
+      - Language ID: `javascript`, `typescript`, `javascriptreact`, or `typescriptreact`
+      - File extension: `.js`, `.jsx`, `.ts`, or `.tsx`
+      - Excludes TypeScript declaration files (`.d.ts`)
+    </Note>
+  </Step>
+
+  <Step title="Context Menu (Editor)">
+    Right-click anywhere in an open JavaScript/TypeScript file and select **View Exports SVG 🔍** from the editor context menu.
+    
+    This provides quick access when you're already working in a file that contains SVG components.
+  </Step>
+
+  <Step title="Command Palette">
+    Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and run:
+    
+    ```
+    View Exports SVG: Start Scanning
+    ```
+    
+    This command performs a workspace-wide scan to discover all SVG components across your entire project.
+    
+    <Tip>
+      Use this method when you want to see all icons in your project at once, regardless of which file you currently have open.
+    </Tip>
+  </Step>
+</Steps>
+
+## Drag and Drop
+
+Once the viewer is open, you can add more files by dragging and dropping them directly onto the panel:
+
+1. Open the viewer using any of the methods above
+2. Drag one or more compatible files from your file explorer
+3. Drop them onto the View Exports SVG panel
+4. The extension will process and display the SVG components from the dropped files
+
+<Note>
+  Drag and drop functionality works with the same file types supported by the context menu (`.js`, `.jsx`, `.ts`, `.tsx`).
+</Note>
+
+## File Type Requirements
+
+The extension only processes files that meet specific criteria:
+
+| Requirement | Details |
+|------------|----------|
+| **Language** | JavaScript, TypeScript, JSX, or TSX |
+| **Extensions** | `.js`, `.jsx`, `.ts`, `.tsx` |
+| **Excluded** | TypeScript declaration files (`.d.ts`) |
+| **Pattern** | Files matching: `^(?!.*\.d\.ts$).*\.(ts|tsx|js|jsx)$` |
+
+## What Happens After Opening
+
+When you open the viewer:
+
+1. **Panel Creation**: A webview panel opens in VS Code
+2. **File Processing**: The extension scans selected files for SVG component exports
+3. **Component Display**: Discovered icons appear grouped by their source file or custom grouping patterns
+4. **Interactive Preview**: Click any icon to view it in the DevTools playground
+
+## Toolbar Actions
+
+Once the viewer is open, the editor title bar displays additional actions:
+
+- **Collapse/Expand All**: Toggle all component groups at once
+- **DevTools**: Open or close the interactive playground panel
+- **Clear Cache**: Remove cached component data and force a fresh scan
+- **Reload Theme**: Sync the panel appearance with your current VS Code theme
+
+<Tip>
+  The toolbar actions only appear when the View Exports SVG panel is active (indicated by `activeWebviewPanelId == 'JT-View-Exports-SVG'`).
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Search & Filter" icon="magnifying-glass" href="/guides/searching-filtering">
+    Learn how to find specific icons quickly
+  </Card>
+  <Card title="Copy & Export" icon="download" href="/guides/copying-exporting">
+    Discover export and clipboard options
+  </Card>
+</CardGroup>

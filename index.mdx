@@ -1,97 +1,270 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: View Exports SVG Documentation
+description: The ultimate tool to discover, visualize, and manage your SVG component library directly within Visual Studio Code.
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-gradient-to-br from-[#2b3c58] via-[#3d5068] to-[#2b3c58] dark:bg-gradient-to-br dark:from-[#0f1117] dark:via-[#1a1d27] dark:to-[#0f1117] py-20 lg:py-24">
+  <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+  <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="lg:col-span-7">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white dark:text-gray-100 mb-6">
+          View Exports SVG
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-200 dark:text-gray-300 max-w-2xl mb-8">
+          The ultimate tool to discover, visualize, and manage your SVG component library directly within Visual Studio Code. Preview, customize, and export icons with an interactive playground and powerful DevTools panel.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a 
+            href="/quickstart" 
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold text-[#2b3c58] dark:text-gray-900 bg-[#ebd7a7] hover:bg-[#d9c595] transition-colors no-underline"
+          >
+            Get Started
+            <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a 
+            href="/installation" 
+            className="inline-flex items-center px-6 py-3 rounded-lg font-semibold text-white dark:text-gray-100 border border-white/30 dark:border-gray-700 bg-white/10 dark:bg-[#1a1d27] hover:bg-white/20 dark:hover:bg-[#242838] hover:border-[#ebd7a7] dark:hover:border-[#ebd7a7] transition-colors no-underline"
+          >
+            Installation Guide
+          </a>
+        </div>
+      </div>
+      <div className="lg:col-span-5 hidden lg:block">
+        <div className="relative">
+          <img 
+            src="https://media.brand.dev/f9d3e700-9df3-4a3e-9e01-89bba241fcd6.svg" 
+            alt="View Exports SVG Icon" 
+            className="w-full h-auto max-w-md mx-auto drop-shadow-2xl"
+            noZoom
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Quick start</h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Get up and running with View Exports SVG in minutes
+    </p>
+  </div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+  <Steps>
+    <Step title="Install the extension">
+      Open Visual Studio Code, navigate to the Extensions view (`Ctrl+Shift+X`), search for **View Exports SVG**, and click **Install**.
 
-## Make it yours
+      Alternatively, install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=JairTorres1003.jt-view-exports-svg).
+    </Step>
 
-Design a docs site that looks great and empowers your users.
+    <Step title="Open your project">
+      Open a workspace or folder containing JavaScript or TypeScript files with SVG component exports. The extension works with React, Preact, and other frameworks.
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      ```bash
+      code /path/to/your/project
+      ```
+    </Step>
 
-## Create beautiful pages
+    <Step title="View your icons">
+      Right-click on any `.js`, `.jsx`, `.ts`, or `.tsx` file in the Explorer and select **View Exports SVG 🔍**, or run the command **View Exports SVG: Start Scanning** from the Command Palette (`Ctrl+Shift+P`).
 
-Everything you need to create world-class documentation.
+      <Note>
+        The extension automatically scans your workspace for SVG exports and displays them in an interactive panel.
+      </Note>
+    </Step>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+    <Step title="Explore and customize">
+      Click on any icon to preview it in the Interactive Playground. Adjust properties like size, color, stroke width, and more in real-time. Copy the component name, download as SVG/PNG, or open the source file directly.
 
-## Need inspiration?
+      <Accordion title="Example: Customizing icon properties">
+        In the Playground, you can modify properties such as:
+        - **Size**: Change width and height
+        - **Color**: Adjust fill and stroke colors
+        - **Stroke**: Modify stroke width
+        - **Style**: Add custom CSS or inline styles
+      </Accordion>
+    </Step>
+  </Steps>
+</div>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Core features</h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Powerful tools to streamline your SVG workflow
+    </p>
+  </div>
+
+  <CardGroup cols={2}>
+    <Card 
+      title="Advanced DevTools Panel" 
+      icon="screwdriver-wrench" 
+      href="/features/devtools-panel"
+    >
+      A dockable, full-featured panel with component viewer, search, and management tools to organize your icon library.
+    </Card>
+    <Card 
+      title="Interactive Playground" 
+      icon="flask" 
+      href="/features/interactive-playground"
+    >
+      Select any icon to preview it, edit properties in a real-time code editor, and see changes instantly.
+    </Card>
+    <Card 
+      title="Workspace Scanning" 
+      icon="magnifying-glass" 
+      href="/features/workspace-scanning"
+    >
+      Automatically discover all SVG components across your entire project with intelligent scanning and caching.
+    </Card>
+    <Card 
+      title="Icon Management" 
+      icon="star" 
+      href="/features/icon-management"
+    >
+      Mark icons as favorites, view recently used components, and get quick access to what matters most.
+    </Card>
+  </CardGroup>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Explore by topic</h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Learn how to use View Exports SVG effectively
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <a 
+      href="/guides/viewing-icons" 
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#ebd7a7] dark:hover:border-[#ebd7a7] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="h-56 bg-gradient-to-br from-[#83b9c3] to-[#2b3c58] dark:from-[#242838] dark:to-[#1a1d27] flex items-center justify-center overflow-hidden">
+        <svg className="w-24 h-24 text-white dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      </div>
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">Viewing icons</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Learn multiple ways to view and access your SVG icons within VS Code
+        </p>
+        <div className="flex items-center text-sm font-medium text-[#ebd7a7] group-hover:text-[#d9c595]">
+          Learn more
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a 
+      href="/guides/searching-filtering" 
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#ebd7a7] dark:hover:border-[#ebd7a7] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="h-56 bg-gradient-to-br from-[#ebd7a7] to-[#83b9c3] dark:from-[#242838] dark:to-[#1a1d27] flex items-center justify-center overflow-hidden">
+        <svg className="w-24 h-24 text-white dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        </svg>
+      </div>
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">Searching and filtering</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Quickly find the icons you need with powerful search and filtering tools
+        </p>
+        <div className="flex items-center text-sm font-medium text-[#ebd7a7] group-hover:text-[#d9c595]">
+          Learn more
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a 
+      href="/configuration/settings" 
+      className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#ebd7a7] dark:hover:border-[#ebd7a7] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]"
+    >
+      <div className="h-56 bg-gradient-to-br from-[#2b3c58] to-[#ebd7a7] dark:from-[#242838] dark:to-[#1a1d27] flex items-center justify-center overflow-hidden">
+        <svg className="w-24 h-24 text-white dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </div>
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2">Configuration</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Customize the extension to fit your workflow with powerful configuration options
+        </p>
+        <div className="flex items-center text-sm font-medium text-[#ebd7a7] group-hover:text-[#d9c595]">
+          Learn more
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Resources</h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Get help and connect with the community
+    </p>
+  </div>
+
+  <CardGroup cols={3}>
+    <Card 
+      title="Commands Reference" 
+      icon="terminal" 
+      href="/reference/commands/show-menu"
+    >
+      Explore all available commands and keyboard shortcuts
+    </Card>
+    <Card 
+      title="Troubleshooting" 
+      icon="wrench" 
+      href="/reference/troubleshooting"
+    >
+      Solutions to common issues and error messages
+    </Card>
+    <Card 
+      title="GitHub Issues" 
+      icon="github" 
+      href="https://github.com/JairTorres1003/JT-View-Exports-SVG/issues"
+    >
+      Report bugs or request new features
+    </Card>
+  </CardGroup>
+</div>
+
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#2b3c58] to-[#3d5068] dark:from-[#1a1d27] dark:to-[#242838] p-12 border border-[#27272a]">
+    <div className="relative z-10 text-center">
+      <h2 className="text-3xl font-bold text-white dark:text-gray-100 mb-4">
+        Ready to streamline your SVG workflow?
+      </h2>
+      <p className="text-lg text-gray-200 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+        Install View Exports SVG today and start managing your icon library with ease
+      </p>
+      <a 
+        href="/quickstart" 
+        className="inline-flex items-center px-8 py-4 rounded-lg font-semibold text-[#2b3c58] dark:text-gray-900 bg-[#ebd7a7] hover:bg-[#d9c595] transition-colors no-underline text-lg"
+      >
+        Get Started Now
+        <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+---
+title: Introduction
+description: Discover, visualize, and manage your SVG component library directly within Visual Studio Code
+---
+
+View Exports SVG is a powerful Visual Studio Code extension that transforms how you interact with SVG icons in your projects. It goes beyond simple viewing, offering a complete suite of tools to scan your workspace, preview components in an interactive playground, and manage your assets with an intuitive DevTools panel.
+
+## What is View Exports SVG?
+
+View Exports SVG is the ultimate tool for developers working with SVG icon components in JavaScript and TypeScript projects. Whether you're building a React application, managing a design system, or simply organizing your icon assets, this extension provides everything you need to discover, preview, and manage your SVG components without leaving your editor.
+
+The extension automatically scans your workspace to find all exported SVG components in `.js`, `.jsx`, `.ts`, and `.tsx` files, then presents them in an interactive viewer where you can experiment with properties, copy component names, and export icons in multiple formats.
+
+## Why use View Exports SVG?
+
+Managing SVG icons across a large codebase can be challenging. You might have hundreds of icons scattered across multiple files and directories, making it difficult to:
+
+- **Find** the icon you need quickly
+- **Preview** how an icon looks with different properties
+- **Remember** component names and import paths
+- **Organize** and categorize your icon library
+- **Share** icons with team members or export them for design tools
+
+View Exports SVG solves these problems by providing a centralized interface for your entire SVG component library.
+
+## Key capabilities
+
+<CardGroup cols={2}>
+  <Card title="Advanced DevTools panel" icon="wrench">
+    A dockable, full-featured panel with a component viewer, search, and management tools integrated directly into VS Code.
+  </Card>
+  
+  <Card title="Interactive playground" icon="play">
+    Select any icon to preview it, edit its properties in a real-time code editor, and see your changes instantly with live preview.
+  </Card>
+  
+  <Card title="Workspace-wide scanning" icon="magnifying-glass">
+    Automatically discover all SVG components across your entire project, not just in specific files. The extension scans JavaScript, TypeScript, JSX, and TSX files.
+  </Card>
+  
+  <Card title="Component management" icon="star">
+    Mark icons as favorites, see your recently used components, and get quick access to what matters most in your workflow.
+  </Card>
+  
+  <Card title="Multiple access methods" icon="hand-pointer">
+    Launch the viewer from the context menu, the command palette, or by dragging and dropping files directly into the panel.
+  </Card>
+  
+  <Card title="Powerful actions" icon="bolt">
+    Copy component names to clipboard, download icons as SVG or PNG files, or open the source file directly from the UI.
+  </Card>
+  
+  <Card title="Broad framework support" icon="code">
+    Works out-of-the-box with JavaScript and TypeScript projects using frameworks like React, Preact, and more.
+  </Card>
+  
+  <Card title="Native theming" icon="palette">
+    The interface automatically adapts to your current VS Code theme for a seamless, integrated experience.
+  </Card>
+</CardGroup>
+
+## How it works
+
+View Exports SVG uses advanced AST (Abstract Syntax Tree) parsing to analyze your JavaScript and TypeScript files, identifying exported SVG components and extracting their properties. The extension intelligently handles:
+
+- Named exports and default exports
+- Function components and arrow function components
+- Component props and default values
+- Conditional rendering and dynamic properties
+- SVG animations and custom attributes
+
+Once scanned, your components are cached for fast access and organized in an intuitive interface where you can search, filter, and interact with them.
+
+## Get started
+
+Ready to streamline your SVG workflow? Follow these guides to get started:
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/installation">
+    Install View Exports SVG from the VS Code Marketplace in seconds
+  </Card>
+  
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get from zero to viewing your first SVG icons in under 2 minutes
+  </Card>
+</CardGroup>
+
+<Note>
+View Exports SVG requires VS Code version 1.109.0 or higher. Make sure your editor is up to date before installing.
+</Note>

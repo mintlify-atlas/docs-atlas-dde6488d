@@ -1,0 +1,352 @@
+---
+title: Icon Management
+description: Organize your SVG components with favorites, recent icons, and quick actions
+---
+
+The Icon Management system helps you organize and quickly access your most-used SVG components through favorites, recently used tracking, and powerful organization features.
+
+## Favorites System
+
+Mark important icons as favorites for quick access:
+
+### Adding Favorites
+
+There are two ways to mark an icon as a favorite:
+
+1. **Star Button**: Hover over any icon card and click the star icon
+2. **Context Menu**: Right-click an icon and select "Add to Favorites"
+
+When you add a favorite:
+- The star icon fills in and changes color
+- The component is saved to the favorites cache
+- It appears in the Favorites section (if enabled)
+
+<Tip>
+Use favorites to bookmark the icons you use most frequently in your projects. They persist across VS Code sessions.
+</Tip>
+
+### Removing Favorites
+
+To remove a favorite:
+
+1. Click the filled star icon on the component card
+2. The icon is immediately removed from favorites
+3. The star becomes an outline again
+
+```typescript
+// Toggle favorite implementation
+const toggleFavorite = (component: SVGComponent): void => {
+  const payload = {
+    name: component.name,
+    location: component.location,
+  }
+  
+  if (component.isFavorite) {
+    vscode.postMessage(SVGReceiveMessage.RemoveFavoriteIcon, payload)
+  } else {
+    vscode.postMessage(SVGReceiveMessage.AddFavoriteIcon, payload)
+  }
+}
+```
+
+### Favorites Storage
+
+Favorites are persisted using the `IconCacheController`:
+
+- **Storage location**: `favorites_cache.json` in global storage
+- **Per-workspace**: Favorites are tracked separately for each workspace
+- **Timestamp tracking**: Each favorite includes a `dateAdd` timestamp
+- **Unlimited storage**: No limit on the number of favorites
+
+<Note>
+Favorites are workspace-specific. Icons marked as favorites in one project won't appear as favorites in other projects.
+</Note>
+
+## Recently Used Icons
+
+The extension automatically tracks icons you interact with:
+
+### Tracking Behavior
+
+An icon is added to recent icons when you:
+
+- **Click the icon card** (copies name to clipboard)
+- **Open it in the Playground** for customization
+- **Copy its code** from the DevTools panel
+
+### Recent Icons Limit
+
+You can configure how many recent icons to remember:
+
+```json
+{
+  "viewExportsSvg.recentIconsLimit": 20
+}
+```
+
+- Default limit: **20 icons**
+- Oldest icons are automatically removed when the limit is reached
+- Set to `0` for unlimited recent icons
+
+### Storage and Caching
+
+Recent icons are managed by the cache system:
+
+```typescript
+class IconCacheController {
+  add(folder: WorkspaceFolder, value: SVGIcon[]): SVGIconCache[] {
+    const current = super.get(currentKey, 0) ?? []
+    
+    // Move to front if already exists
+    value.forEach((icon) => {
+      const existing = current.findIndex(
+        (item) => item.name === icon.name && 
+                  item.location.file.uri === icon.location.file.uri
+      )
+      if (existing !== -1) {
+        newValue.splice(existing, 1)
+      }
+      newValue.unshift({ ...icon, dateAdd: Date.now() })
+    })
+    
+    // Apply limit
+    const limit = limitConfig > 0 ? limitConfig : newValue.length
+    return newValue.slice(0, limit)
+  }
+}
+```
+
+<Accordion title="Recent Icons Implementation">
+  - **Most recent first**: New icons appear at the top of the list
+  - **Duplicate prevention**: Clicking the same icon moves it to the top instead of duplicating
+  - **Automatic pruning**: Oldest icons are removed when limit is exceeded
+  - **Persistent storage**: Saved to `recent_cache.json` in global storage
+</Accordion>
+
+## Icon Card Actions
+
+Each icon card provides several quick actions:
+
+### Primary Click Action
+
+When you click an icon card:
+
+1. **Copies the component name** to your clipboard
+2. **Opens the DevTools panel** with the icon selected
+3. **Adds to recent icons** automatically
+4. **Shows success notification** confirming the copy
+
+```typescript
+const handleClick = ({ name, location }: SVGIcon): void => {
+  // Copy name to clipboard
+  copyToClipboard(name).then(() => {
+    onOpen(`Copied ${name} to clipboard`, { severity: 'success' })
+  })
+  
+  // Track as recently used
+  vscode.postMessage(SVGReceiveMessage.AddRecentIcon, { name, location })
+}
+```
+
+### Context Menu Actions
+
+Right-click any icon for additional options:
+
+- **Copy Component Name** - Copy just the name
+- **Copy Component Code** - Copy the full component code
+- **Add/Remove Favorite** - Toggle favorite status
+- **Download as SVG** - Export to SVG file
+- **Download as PNG** - Export to PNG image
+- **Open in Editor** - Jump to source file location
+
+<Tip>
+Use the context menu for advanced actions. It provides access to all icon operations without opening the DevTools panel.
+</Tip>
+
+## Component Organization
+
+Icons are automatically organized in the interface:
+
+### Grouping Options
+
+1. **By File** (Dashboard view)
+   - Icons grouped by their source file
+   - Shows file path and icon count
+   - Expandable/collapsible groups
+
+2. **By Type** (Home view)
+   - Groups like Favorites, Recent, All Icons
+   - Organized by usage patterns
+   - Quick access to important collections
+
+### Accordion Interface
+
+Component groups use an accordion layout:
+
+```tsx
+<AccordionMenuItem
+  key={item.groupKind.id}
+  label={item.groupKind.label}
+  expanded={isExpanded.includes(item.groupKind.id)}
+  actions={<AccordionActionsSVG data={item} />}
+>
+  {item.components.map((c) => (
+    <CardSvgRenderMemo key={c.name} component={c} />
+  ))}
+</AccordionMenuItem>
+```
+
+Group actions include:
+- **Refresh** - Re-scan the files in this group
+- **Go to File** - Open the source file(s)
+- **Expand/Collapse** - Toggle group visibility
+
+## Search and Filter
+
+Quickly find icons in large collections:
+
+### Search Bar
+
+Available in the Dashboard view:
+
+- **Real-time filtering** as you type
+- **Searches component names** across all groups
+- **Case-insensitive** matching
+- **Highlights** matching results
+
+### Filter Options
+
+Filter components by:
+- **Favorites only** - Show only favorited icons
+- **Recent only** - Show only recently used icons
+- **By file type** - Filter by `.js`, `.jsx`, `.ts`, `.tsx`
+- **By animation** - Show animated vs static icons
+
+<Note>
+Search and filter features work together - you can combine text search with filters for precise results.
+</Note>
+
+## Bulk Operations
+
+Perform actions on multiple icons:
+
+### Selection
+
+- **Click + Ctrl/Cmd** - Multi-select icons
+- **Shift + Click** - Range selection
+- **Select All** - Via keyboard shortcut or menu
+
+### Batch Actions
+
+With multiple icons selected:
+
+- **Add all to Favorites**
+- **Remove all from Favorites**
+- **Download all as ZIP**
+- **Copy all names**
+
+<Accordion title="Future Enhancements">
+  Planned features for icon management:
+  
+  - Custom collections/tags
+  - Color-coded categories
+  - Usage statistics
+  - Duplicate detection
+  - Icon comparison view
+</Accordion>
+
+## Cache Management
+
+The extension manages several caches for icon data:
+
+### Cache Types
+
+1. **Favorites Cache**
+   - File: `favorites_cache.json`
+   - Type: `IconCacheController` with `FAVORITE` kind
+   - Unlimited size
+
+2. **Recent Cache**
+   - File: `recent_cache.json`
+   - Type: `IconCacheController` with `RECENT` kind
+   - Limited by `recentIconsLimit` setting
+
+3. **Components Cache**
+   - File: `components_cache.json`
+   - Stores all discovered components
+   - Invalidated when files are modified
+
+### Clearing Caches
+
+To clear all caches:
+
+1. Open Command Palette (`Ctrl+Shift+P`)
+2. Run **"View Exports SVG: Clear Cache"**
+3. All cached data is removed
+4. Next scan will rebuild the cache
+
+<Tip>
+Clear the cache if you notice outdated or incorrect icon data. The extension will automatically rebuild the cache on the next scan.
+</Tip>
+
+## Icon Metadata
+
+Each icon stores comprehensive metadata:
+
+```typescript
+interface SVGComponent {
+  name: string              // Component name
+  declaration: string       // Declaration type (const, function, etc.)
+  isExported: boolean      // Whether exported from module
+  isAnimated: boolean      // Contains animation elements
+  isFavorite: boolean      // Marked as favorite
+  hasErrors: boolean       // Has parsing/rendering errors
+  location: {
+    file: { uri: string; isTemporary: boolean }
+    start: { line: number; character: number }
+    end: { line: number; character: number }
+  }
+  errors?: { message: string } // Error details if any
+}
+```
+
+### Temporary Files
+
+Uploaded or dropped files are marked as temporary:
+
+- `location.file.isTemporary = true`
+- Cannot be added to favorites
+- Don't support "Open in Editor"
+- Removed when webview is closed
+
+<Note>
+Temporary files have limited management features since they're not part of your workspace. They're useful for quick previews and testing.
+</Note>
+
+## Best Practices
+
+### Organizing Large Icon Libraries
+
+1. **Use Favorites** for your top 10-20 most-used icons
+2. **Rely on Recent** for context-specific work
+3. **Use Search** to find icons by name
+4. **Keep files organized** in logical folders in your codebase
+
+### Performance Tips
+
+- Don't mark too many icons as favorites (slows initial load)
+- Adjust recent limit based on your workflow
+- Clear cache periodically if working with large libraries
+- Use search instead of scrolling through long lists
+
+### Workflow Integration
+
+1. **Scan workspace** when starting a project
+2. **Favorite** the icons you'll use regularly
+3. **Click icons** to copy names for quick use
+4. **Use Playground** for customization before copying code
+5. **Track Recent** to maintain context during development
+
+<Tip>
+Establish a consistent workflow: Scan → Favorite → Use → Customize. This helps you stay organized and efficient.
+</Tip>

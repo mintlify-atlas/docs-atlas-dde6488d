@@ -1,0 +1,275 @@
+---
+title: Framework Compatibility
+description: Framework and library support for View Exports SVG extension
+icon: layer-group
+---
+
+View Exports SVG is designed to work seamlessly with modern JavaScript frameworks and libraries that use JSX/TSX for component development. The extension's broad compatibility ensures it works with your preferred framework.
+
+## Supported Frameworks
+
+Based on the extension's keywords and design, the following frameworks are officially supported:
+
+### React
+
+Full support for React components with JSX syntax:
+
+```jsx
+import React from 'react'
+
+export const ReactIcon = ({ size = 24, color = 'currentColor' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path stroke={color} strokeWidth={2} d="M..." />
+  </svg>
+)
+```
+
+<Note>
+  React is listed as a primary keyword in `package.json:11`, indicating first-class support.
+</Note>
+
+### Preact
+
+Compatible with Preact's JSX implementation:
+
+```jsx
+import { h } from 'preact'
+
+export const PreactIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M..." />
+  </svg>
+)
+```
+
+### TypeScript + JSX
+
+Full support for TypeScript with typed component props:
+
+```tsx
+interface IconProps {
+  size?: number
+  color?: string
+  className?: string
+}
+
+export const TypedIcon: React.FC<IconProps> = ({ 
+  size = 24, 
+  color = 'currentColor',
+  className 
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    className={className}
+  >
+    <path fill={color} d="M..." />
+  </svg>
+)
+```
+
+<Tip>
+  The extension's Babel parser is configured with the `typescript` plugin, enabling full TypeScript syntax support including type annotations and interfaces.
+</Tip>
+
+## File Type Requirements
+
+The extension activates based on specific file criteria defined in `package.json`:
+
+### Language IDs
+
+The extension activates for files with the following VS Code language identifiers:
+
+- `javascript` - Standard JavaScript files
+- `typescript` - TypeScript files
+- `javascriptreact` - JavaScript with JSX (React)
+- `typescriptreact` - TypeScript with JSX (React)
+
+### File Extensions
+
+Required file extensions for context menu activation:
+
+- `.js` - JavaScript
+- `.jsx` - JavaScript with JSX
+- `.ts` - TypeScript (excluding `.d.ts`)
+- `.tsx` - TypeScript with JSX
+
+<Warning>
+  TypeScript definition files (`.d.ts`) are explicitly excluded from scanning via the regex pattern: `^(?!.*\.d\.ts$).*\.(ts|tsx|js|jsx)$`
+</Warning>
+
+You can verify this in the package.json configuration:
+
+```json
+"when": "resourceLangId =~ /^(javascript|typescript|javascriptreact|typescriptreact)$/ && resourceFilename =~ /^(?!.*\\.d\\.ts$).*\\.(ts|tsx|js|jsx)$/"
+```
+
+## Framework-Specific Features
+
+### Motion Libraries
+
+The extension includes special handling for animation libraries:
+
+```tsx
+import { motion } from 'framer-motion'
+
+export const AnimatedIcon = () => (
+  <motion.svg
+    xmlns="http://www.w3.org/2000/svg"
+    animate={{ rotate: 360 }}
+    transition={{ duration: 2 }}
+  >
+    <path d="M..." />
+  </motion.svg>
+)
+```
+
+<Note>
+  The extension detects motion elements and marks components as animated, as seen in `src/utilities/svg/SVGComponent.ts:127`.
+</Note>
+
+### Component Props Patterns
+
+The extension intelligently handles various prop patterns:
+
+#### Spread Props
+
+```tsx
+export const Icon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M..." />
+  </svg>
+)
+```
+
+#### Destructured Props
+
+```tsx
+export const Icon = ({ size, color, ...rest }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    {...rest}
+  >
+    <path fill={color} d="M..." />
+  </svg>
+)
+```
+
+#### Default Values
+
+```tsx
+export const Icon = ({ size = 24, color = '#000' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
+    <path fill={color} d="M..." />
+  </svg>
+)
+```
+
+## Framework-Agnostic Support
+
+While React and Preact are explicitly mentioned, the extension works with any framework that:
+
+1. Uses JSX/TSX syntax for components
+2. Compiles to JavaScript ES modules
+3. Exports components using standard ES6 export syntax
+4. Returns SVG elements from component functions
+
+This includes frameworks like:
+
+- **Solid.js** - With JSX components
+- **Qwik** - With $ components returning SVG
+- **Inferno** - With JSX syntax
+- **Mitosis** - Framework-agnostic components
+
+<Tip>
+  The key requirement is JSX/TSX syntax with proper SVG namespace attributes, not framework-specific APIs.
+</Tip>
+
+## Module Systems
+
+The extension supports ES6 module syntax:
+
+### ES Modules (Recommended)
+
+```javascript
+// Named exports
+export { Icon1, Icon2 } from './icons'
+
+// Re-exports
+export * from './icon-set'
+
+// Default export
+export default MyIcon
+```
+
+### CommonJS Compatibility
+
+While the parser is configured for `sourceType: 'module'`, components using ES6 export syntax in CommonJS projects will still be recognized:
+
+```javascript
+// This works even in CommonJS projects
+export const Icon = () => <svg>...</svg>
+```
+
+<Warning>
+  Traditional CommonJS `module.exports` syntax is not supported. Use ES6 `export` syntax even in CommonJS projects.
+</Warning>
+
+## Configuration for Multi-Framework Projects
+
+If you're working in a monorepo or multi-framework project:
+
+### Specify Asset Paths
+
+Configure specific directories to scan:
+
+```json
+{
+  "JT-View-Exports-SVG.assetsPath": [
+    "packages/react-icons/src",
+    "packages/preact-icons/src"
+  ]
+}
+```
+
+### Ignore Framework-Specific Directories
+
+```json
+{
+  "JT-View-Exports-SVG.ignoreDirectories": [
+    "**/node_modules",
+    "**/dist",
+    "**/__tests__"
+  ]
+}
+```
+
+## Best Practices
+
+<Tip>
+  For maximum compatibility across frameworks:
+  1. Always include the `xmlns="http://www.w3.org/2000/svg"` attribute
+  2. Use standard JSX syntax without framework-specific extensions
+  3. Export components using ES6 syntax
+  4. Keep SVG components in `.jsx` or `.tsx` files
+</Tip>
+
+## Framework Detection
+
+The extension doesn't require framework-specific configuration. It automatically:
+
+- Detects JSX/TSX files based on language ID and file extension
+- Parses components using framework-agnostic Babel parser
+- Extracts SVG elements regardless of the framework wrapper
+- Works with any valid JSX syntax
+
+This means you can switch frameworks without reconfiguring the extension.

@@ -1,0 +1,200 @@
+---
+title: Project Architecture
+description: Understanding the structure and organization of the View Exports SVG codebase
+---
+
+## Project Overview
+
+View Exports SVG is a VS Code extension with a React-based webview UI. The project is split into two main parts:
+
+- **Extension** (TypeScript) - The VS Code extension host
+- **Client** (React + TypeScript) - The webview UI
+
+## Directory Structure
+
+```
+JT-View-Exports-SVG/
+├── src/                    # Extension source code
+│   ├── commands/          # Command implementations
+│   ├── controllers/       # Business logic controllers
+│   ├── providers/         # VS Code providers
+│   ├── utilities/         # Utility functions
+│   ├── types/             # TypeScript type definitions
+│   ├── constants/         # Constants and configurations
+│   ├── enum/              # Enumerations
+│   ├── views/             # Webview content generation
+│   ├── test/              # Test files
+│   └── extension.ts       # Extension entry point
+├── client/                # Webview UI (React)
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── out/                   # Compiled output
+├── assets/                # Extension assets
+├── l10n/                  # Localization files
+└── package.json           # Extension manifest
+```
+
+## Extension Architecture
+
+### Entry Point: `extension.ts`
+
+The main entry point for the extension is `src/extension.ts`. This file:
+
+- Exports the `activate()` function, called when the extension is activated
+- Initializes cache managers and theme configuration
+- Registers all commands and providers
+- Sets up the in-memory file system provider
+
+```typescript
+export async function activate(context: ExtensionContext) {
+  await initializeCacheManager(context)
+  await initializeExtensionTheme(context)
+  
+  // Register commands, providers, etc.
+}
+```
+
+Location: `src/extension.ts:20`
+
+### Commands (`src/commands/`)
+
+Commands are the entry points for user actions. Key commands include:
+
+- **`showMenu`** - Opens the SVG viewer from context menu
+- **`scanning`** - Scans workspace for SVG components
+- **`reloadTheme`** - Reloads the current VS Code theme
+- **`expandedIcons`** - Toggles icon expansion state
+- **`devTools`** - Opens/closes the DevTools panel
+- **`cache`** - Manages extension cache
+
+Each command is registered in `extension.ts` with the prefix `JT-View-Exports-SVG`.
+
+### Controllers (`src/controllers/`)
+
+Controllers contain the core business logic, organized by responsibility:
+
+#### Cache Controllers (`controllers/cache/`)
+
+- **`CacheManagerController`** - Central cache management
+- **`IconCacheController`** - Manages icon data cache
+- **`ComponentsCacheController`** - Caches component information
+- **`FileModifiedCacheController`** - Tracks file modifications
+
+#### Config Controllers (`controllers/config/`)
+
+- **`ConfigManagerController`** - Central configuration management
+- **`AssetsPathsController`** - Manages asset paths
+- **`DefaultIconPropertiesController`** - Default icon properties
+- **`IgnoreDirectoriesController`** - Directories to ignore during scanning
+- **`GroupPatternsController`** - Pattern-based grouping
+- **`RecentIconsController`** - Recent icons tracking
+
+#### Handler Controllers (`controllers/handlers/`)
+
+- **`AssetsHandler`** - Handles asset-related operations
+- **`CacheHandler`** - Cache operation handling
+- **`ConfigurationHandler`** - Configuration changes
+- **`SVGComponentHandler`** - SVG component processing
+- **`UIHandler`** - UI state management
+
+#### Listener Controllers (`controllers/listener/`)
+
+- **`ListerWebviewController`** - Listens to webview events
+- **`MessageRouterController`** - Routes messages between extension and webview
+
+#### View Controllers (`controllers/views/`)
+
+- **`ViewExportsSVGController`** - Main webview panel controller
+
+### Utilities (`src/utilities/`)
+
+Utility functions organized by domain:
+
+- **`files/`** - File operations (scanning, processing, filtering)
+- **`svg/`** - SVG parsing, analysis, and manipulation
+- **`properties/`** - Property extraction and management
+- **`css/`** - CSS parsing and processing
+- **`vscode/`** - VS Code API utilities
+- **`icons/`** - Icon-specific utilities
+
+### Providers (`src/providers/`)
+
+- **`InMemoryFileSystemProvider`** - Provides an in-memory file system for virtual documents
+
+### Types (`src/types/`)
+
+TypeScript type definitions organized by domain:
+
+- **`views/`** - Webview-related types
+- **`svg/`** - SVG component types
+- **`properties/`** - Property-related types
+- **`cache.d.ts`** - Cache types
+- **`ViewExportsSVG.d.ts`** - Main extension types
+
+## Client Architecture
+
+The webview UI is a React application built with Vite, located in the `client/` directory.
+
+### Key Technologies
+
+- **React 19** - UI framework
+- **TypeScript** - Type safety
+- **Redux Toolkit** - State management
+- **Material-UI** - Component library
+- **Monaco Editor** - Code editor in playground
+- **Vite** - Build tool
+- **i18next** - Internationalization
+
+### Client Structure
+
+```
+client/
+├── src/
+│   ├── components/      # React components
+│   ├── store/           # Redux store and slices
+│   ├── utils/           # Utility functions
+│   ├── types/           # TypeScript types
+│   └── App.tsx          # Root component
+├── public/              # Static assets
+└── vite.config.ts       # Vite configuration
+```
+
+## Communication Flow
+
+1. **User Action** → Command registered in `extension.ts`
+2. **Command** → Calls appropriate controller
+3. **Controller** → Uses utilities to process data
+4. **Controller** → Posts message to webview
+5. **Webview** → Receives message via `MessageRouterController`
+6. **React UI** → Updates state and renders
+
+## Build Outputs
+
+The extension compiles to different formats:
+
+- **`out/cjs/`** - CommonJS format (default for VS Code)
+- **`out/esm/`** - ES Module format
+- **`out/types/`** - TypeScript type declarations
+
+The main entry point is specified in `package.json:36` as `./out/cjs/extension.js`.
+
+## Design Patterns
+
+### Controller Pattern
+Controllers separate business logic from commands and views.
+
+### Provider Pattern
+Providers implement VS Code APIs for custom functionality.
+
+### Message Passing
+Extension and webview communicate via message passing for security and isolation.
+
+### Cache-First Strategy
+Data is cached to minimize file system operations and improve performance.
+
+## Next Steps
+
+- Learn about [building the extension](/development/building)
+- Understand the [testing approach](/development/testing)
+- Set up your [development environment](/development/setup)

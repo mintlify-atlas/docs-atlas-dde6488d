@@ -1,0 +1,333 @@
+---
+title: Testing
+description: Running and writing tests for View Exports SVG
+---
+
+## Testing Overview
+
+View Exports SVG uses automated tests to ensure code quality and prevent regressions. The project includes tests for both the extension and the webview client.
+
+## Test Framework
+
+The extension uses different testing frameworks for different parts:
+
+- **Extension**: VS Code Extension Test Runner with Mocha
+- **Client**: Vitest with React Testing Library
+
+## Running Tests
+
+### Extension Tests
+
+To run the extension test suite:
+
+```bash
+npm test
+```
+
+This command:
+1. Runs the `pretest` script automatically
+2. Compiles the extension and builds the client
+3. Downloads VS Code (if needed)
+4. Launches tests in a VS Code instance
+5. Displays test results in the terminal
+
+<Note>
+  Tests run in an isolated VS Code instance to prevent interference with your development environment.
+</Note>
+
+### Pre-test Build
+
+The `pretest` script runs automatically before tests:
+
+```bash
+npm run pretest
+```
+
+This script:
+1. `npm run compile:clean` - Cleans the output directory
+2. `npm run client:build` - Builds the webview UI
+3. `npm run compile` - Compiles the extension
+
+**Defined in**: `package.json:274`
+
+<Warning>
+  Ensure the pre-test build completes successfully. Test failures may occur if the extension isn't properly compiled.
+</Warning>
+
+### Client Tests
+
+The webview client has its own test suite:
+
+<CodeGroup>
+
+```bash Run Tests
+cd client
+npm test
+```
+
+```bash Interactive UI
+cd client
+npm run test:ui
+```
+
+```bash Coverage Report
+cd client
+npm run test:coverage
+```
+
+</CodeGroup>
+
+## Test Structure
+
+### Extension Test Files
+
+Extension tests are located in `src/test/`:
+
+```
+src/test/
+├── suite/                      # Test suites
+│   ├── index.ts               # Test suite loader
+│   ├── extension.test.ts      # Extension activation tests
+│   ├── main.test.ts           # Main functionality tests
+│   └── utilities/             # Utility tests
+│       ├── files/
+│       │   ├── scanning.test.ts
+│       │   ├── misc.test.ts
+│       │   └── allowedFilesInFolder.test.ts
+│       ├── properties/
+│       │   ├── unaryExpression.test.ts
+│       │   ├── logicalExpression.test.ts
+│       │   └── binaryExpression.test.ts
+│       └── vscode/
+│           └── uri.test.ts
+├── assets/                    # Test fixtures
+│   ├── dist/
+│   └── subfolder/
+│       └── test-1.ts
+└── runTest.ts                # Test runner configuration
+```
+
+### Test Runner Configuration
+
+The test runner is configured in `src/test/runTest.ts`:
+
+```typescript
+await runTests({
+  extensionDevelopmentPath,
+  extensionTestsPath,
+  launchArgs: [path.resolve(extensionDevelopmentPath, 'workspaceTest.code-workspace')],
+})
+```
+
+Location: `src/test/runTest.ts:23`
+
+### Test Suite Loader
+
+The test suite is loaded by `src/test/suite/index.ts`, which:
+- Configures Mocha test runner
+- Discovers test files
+- Handles test reporting
+- Manages test lifecycle
+
+## Writing Tests
+
+### Extension Test Example
+
+Extension tests use Mocha and VS Code's testing API:
+
+```typescript
+import * as assert from 'assert'
+import * as vscode from 'vscode'
+
+suite('Extension Test Suite', () => {
+  vscode.window.showInformationMessage('Start all tests.')
+
+  test('Sample test', () => {
+    assert.strictEqual(-1, [1, 2, 3].indexOf(5))
+    assert.strictEqual(-1, [1, 2, 3].indexOf(0))
+  })
+})
+```
+
+### Test Utilities
+
+Tests for utility functions focus on:
+- **Input validation**
+- **Edge cases**
+- **Expected outputs**
+- **Error handling**
+
+Example from property expression tests:
+- `unaryExpression.test.ts` - Tests unary expression parsing
+- `binaryExpression.test.ts` - Tests binary expression parsing
+- `logicalExpression.test.ts` - Tests logical expression parsing
+
+### Test Fixtures
+
+Test assets are stored in `src/test/assets/`:
+- Sample TypeScript/JavaScript files
+- SVG components
+- Mock workspace structures
+
+## Test Coverage
+
+The test suite covers:
+
+### Core Functionality
+- Extension activation
+- Command registration
+- File scanning and processing
+- SVG component extraction
+- Property parsing
+
+### Utilities
+- **File utilities**: Scanning, filtering, grouping
+- **Property utilities**: Expression parsing, property extraction
+- **VS Code utilities**: URI handling, theme management
+
+### Edge Cases
+- Empty files
+- Invalid SVG components
+- Missing exports
+- Malformed expressions
+
+## Continuous Integration
+
+Tests run automatically in CI/CD:
+
+1. **Pre-commit** - Husky runs linting checks
+2. **Pre-publish** - Full test suite runs before packaging
+
+```bash
+# Pre-publish script includes testing
+npm run vscode:prepublish
+# Runs: biome:check → test → compile:clean → compile:esbuild
+```
+
+Location: `package.json:275`
+
+## Debugging Tests
+
+### Debug Extension Tests
+
+1. Open the test file in VS Code
+2. Set breakpoints
+3. Open the Debug panel (`Ctrl+Shift+D`)
+4. Select "Extension Tests" configuration
+5. Press `F5` to start debugging
+
+### Debug Client Tests
+
+```bash
+cd client
+npm run test:ui
+```
+
+This opens Vitest UI in your browser with debugging capabilities.
+
+### Verbose Output
+
+The test runner includes `--verbose` flag:
+
+```bash
+node ./out/cjs/test/runTest.js --verbose
+```
+
+Location: `package.json:273`
+
+## Test Workspace
+
+Tests run against a test workspace defined in `workspaceTest.code-workspace`. This provides:
+- Isolated test environment
+- Controlled workspace structure
+- Predictable test conditions
+
+## Common Test Scenarios
+
+### Testing File Scanning
+
+Tests verify:
+- Workspace scanning for SVG files
+- Directory filtering
+- File type detection
+- Export detection
+
+See: `src/test/suite/utilities/files/scanning.test.ts`
+
+### Testing Property Parsing
+
+Tests verify:
+- JSX property extraction
+- Expression evaluation
+- Type handling
+
+See: `src/test/suite/utilities/properties/`
+
+### Testing VS Code Integration
+
+Tests verify:
+- Command registration
+- Webview creation
+- Configuration access
+
+See: `src/test/suite/extension.test.ts`
+
+## Best Practices
+
+<Steps>
+  <Step title="Write tests first">
+    Consider using Test-Driven Development (TDD) for new features.
+  </Step>
+
+  <Step title="Keep tests focused">
+    Each test should verify one specific behavior.
+  </Step>
+
+  <Step title="Use descriptive names">
+    Test names should clearly describe what they're testing.
+  </Step>
+
+  <Step title="Clean up after tests">
+    Ensure tests don't leave side effects that affect other tests.
+  </Step>
+
+  <Step title="Test edge cases">
+    Don't just test the happy path - test error conditions too.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+### Tests Not Running
+
+**Issue**: Tests fail to start  
+**Solution**: Ensure pre-test build succeeds:
+
+```bash
+npm run pretest
+```
+
+### VS Code Not Downloading
+
+**Issue**: Test runner can't download VS Code  
+**Solution**: Check internet connection and proxy settings
+
+### Test Timeout
+
+**Issue**: Tests timeout  
+**Solution**: Increase timeout in test suite:
+
+```typescript
+this.timeout(10000) // 10 seconds
+```
+
+### Workspace Issues
+
+**Issue**: Test workspace state persists  
+**Solution**: The test runner automatically cleans the user data directory before each run (see `src/test/runTest.ts:18`).
+
+## Next Steps
+
+- Learn about the [build process](/development/building)
+- Understand the [project architecture](/development/architecture)
+- Set up your [development environment](/development/setup)

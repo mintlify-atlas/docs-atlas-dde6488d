@@ -1,0 +1,100 @@
+---
+title: DevTools Panel
+description: Explore and customize SVG components with the powerful integrated DevTools panel
+---
+
+The DevTools panel is a powerful, dockable interface that provides an interactive playground and detailed information about your SVG components. It opens automatically when you select an icon from the dashboard or home view.
+
+## Opening and Closing the Panel
+
+The DevTools panel can be toggled open or closed through several methods:
+
+- **Click on any SVG icon** in the dashboard or home view to open DevTools with that icon selected
+- **Close the panel** by clicking the close button (×) in the top-right corner of the DevTools header
+- The panel state is controlled via the `viewExportsSvg.isOpenDevTools` context
+
+<Tip>
+When you click an icon card, it automatically copies the component name to your clipboard and opens the DevTools panel for further exploration.
+</Tip>
+
+## Panel Structure
+
+The DevTools panel is divided into two main resizable sections:
+
+### 1. Playground Panel
+
+An interactive workspace where you can:
+
+- **Preview the selected icon** with a customizable background color
+- **Edit SVG properties** in real-time using an integrated code editor
+- **Copy the component code** to use in your project
+- **Reset changes** to return to the original code
+- **Download the SVG** as SVG or PNG file
+- **Toggle code visibility** to show/hide the code editor
+
+<Card title="Playground Features" icon="code">
+  The playground includes a color picker, code editor with syntax highlighting, and action buttons for copying, resetting, and downloading your SVG.
+</Card>
+
+### 2. Info Panel
+
+Displays detailed metadata about the currently selected component:
+
+- **Component Name** - The exported name of the SVG component
+- **Type Declaration** - The declaration type (e.g., `const`, `function`, `class`)
+- **Is Exported** - Whether the component is exported from its module
+- **Is Animated** - Whether the SVG contains animation elements
+- **Is Favorite** - Whether you've marked this component as a favorite
+- **Error Messages** - If the component has parsing errors, they're displayed here with a button to jump to the source file
+
+<Note>
+The Info panel only displays information when a component is selected. It remains empty until you click on an icon.
+</Note>
+
+## Resizable Layout
+
+Both the Playground and Info panels are fully resizable:
+
+- Drag the **separator bar** between panels to adjust their heights
+- **Collapse panels** by clicking their header to minimize them
+- When both panels are collapsed, the separator is hidden
+- Panel sizes are remembered using the react-resizable-panels library
+
+## DevTools Integration
+
+The DevTools panel communicates with the VS Code extension through a message-passing system:
+
+```typescript
+// Toggle DevTools open/closed
+SVGPostMessage.SendToggleOpenDevTools
+
+// Update recently selected component
+SVGReceiveMessage.AddRecentIcon
+
+// Add/remove favorites
+SVGReceiveMessage.AddFavoriteIcon
+SVGReceiveMessage.RemoveFavoriteIcon
+```
+
+<Accordion title="Developer Details">
+  The DevTools component is implemented in `client/src/core/components/DevTools/DevTools.tsx` and uses React state management with Redux for tracking the currently selected component and panel states.
+  
+  Key files:
+  - `DevTools.tsx` - Main panel component
+  - `Playground/Playground.tsx` - Interactive preview and editor
+  - `InfoComponent/InfoComponent.tsx` - Component metadata display
+  - `src/commands/devTools.ts` - Extension commands for toggling DevTools
+</Accordion>
+
+## Keyboard and Mouse Shortcuts
+
+While in the DevTools panel:
+
+- **Click icon** - Copy component name and open DevTools
+- **Click close button** - Close the DevTools panel
+- **Drag separator** - Resize panels
+- **Click panel header** - Collapse/expand panel sections
+
+<Tip>
+For the best experience, keep the Playground panel open while experimenting with different background colors and SVG modifications.
+</Tip>

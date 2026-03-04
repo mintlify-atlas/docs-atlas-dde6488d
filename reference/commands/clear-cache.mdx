@@ -1,0 +1,188 @@
+---
+title: "Clear Cache Command"
+description: "Clear all cached scan results and force a fresh analysis of SVG icon exports"
+icon: "trash"
+---
+
+The `JT-View-Exports-SVG.clearCache` command removes all cached data from the extension, forcing a fresh analysis the next time you scan for or view SVG icon exports.
+
+## Command Details
+
+<CardGroup cols={2}>
+  <Card title="Command ID" icon="code">
+    `JT-View-Exports-SVG.clearCache`
+  </Card>
+  <Card title="Display Title" icon="tag">
+    Clear Cache
+  </Card>
+</CardGroup>
+
+<Card title="Category" icon="folder">
+  View Exports SVG
+</Card>
+
+**Icon:** `$(trash)` (trash/delete icon)
+
+## Availability
+
+<Note>
+This command is available when the View Exports SVG webview panel is active.
+
+**When condition:** `activeWebviewPanelId == 'JT-View-Exports-SVG'`
+</Note>
+
+The command also appears in the editor title bar when the viewer is open.
+
+## Overview
+
+The extension caches scan results and processed icon data to improve performance. However, there are times when you need to clear this cache to ensure you're seeing current data.
+
+## What Gets Cleared
+
+When you clear the cache, the extension removes:
+
+- **Workspace scan results** - Cached list of files containing SVG exports
+- **Processed icon data** - Extracted SVG component information
+- **File analysis results** - Cached AST parsing and export detection
+- **Recently accessed icons** - May clear recent icon history
+- **Temporary data** - Any other cached metadata
+
+<Warning>
+Clearing the cache will require a fresh scan/analysis the next time you use the extension, which may take longer for large workspaces.
+</Warning>
+
+## Usage
+
+### From the Editor Title Bar
+
+When the View Exports SVG panel is active:
+
+<Steps>
+  <Step title="Locate the button">
+    Find the trash icon in the editor title bar (navigation group position 3)
+  </Step>
+  
+  <Step title="Click to clear">
+    Click the trash icon to clear the cache
+  </Step>
+  
+  <Step title="Confirmation">
+    A success message appears: "Cache cleared successfully!"
+  </Step>
+  
+  <Step title="Viewer reloads">
+    The viewer automatically reloads to reflect the cleared state
+  </Step>
+</Steps>
+
+### From Command Palette
+
+<Steps>
+  <Step title="Open Command Palette">
+    Press Ctrl/Cmd + Shift + P
+  </Step>
+  
+  <Step title="Search for command">
+    Type "View Exports SVG: Clear Cache"
+  </Step>
+  
+  <Step title="Execute">
+    Press Enter to clear the cache
+  </Step>
+  
+  <Step title="Success notification">
+    You'll see a confirmation message when the cache is cleared
+  </Step>
+</Steps>
+
+## Behavior
+
+<AccordionGroup>
+  <Accordion title="Immediate Effects">
+    - All cached data is removed from storage
+    - Success notification is displayed
+    - If the viewer is open, it automatically reloads
+    - Next scan will be a fresh analysis
+  </Accordion>
+  
+  <Accordion title="After Clearing">
+    - First scan after clearing may take longer
+    - All files will be re-analyzed from scratch
+    - Fresh icon data will be extracted
+    - New cache will be built as you use the extension
+  </Accordion>
+</AccordionGroup>
+
+## When to Clear Cache
+
+<CardGroup cols={2}>
+  <Card title="Files Changed" icon="file-pen">
+    You've modified icon files but changes aren't reflected in the viewer
+  </Card>
+  
+  <Card title="Outdated Results" icon="clock-rotate-left">
+    The viewer shows old or stale icon information
+  </Card>
+  
+  <Card title="Missing Icons" icon="eye-slash">
+    New icon files aren't appearing in scan results
+  </Card>
+  
+  <Card title="Corrupted Cache" icon="triangle-exclamation">
+    The extension is behaving unexpectedly or showing errors
+  </Card>
+</CardGroup>
+
+### Specific Scenarios
+
+<Tip>
+**Consider clearing the cache when:**
+- You've reorganized your icon file structure
+- You've changed export patterns in icon components
+- You've updated file naming conventions
+- The scan results seem incomplete or incorrect
+- You've modified ignore patterns or configuration
+</Tip>
+
+## Button Placement
+
+The clear cache button appears in the editor title bar at:
+
+- **Navigation group position 3** (`navigation@3`)
+- Located after the DevTools toggle button
+- Always visible when the viewer panel is active
+
+## Performance Impact
+
+<Note>
+**Cache Management**
+
+The extension automatically manages cache to balance performance and freshness. Clearing cache is typically only needed when you suspect stale data.
+</Note>
+
+### Cache Rebuilding
+
+After clearing cache:
+
+1. **First scan** will take longer as all files are re-analyzed
+2. **Subsequent operations** will be faster as new cache is built
+3. **Memory usage** may temporarily increase during rebuilding
+
+## Configuration
+
+The extension tracks when scans occur:
+
+```json settings.json
+{
+  "JT-View-Exports-SVG.lastScanDate": "2024-03-04T10:30:00.000Z"
+}
+```
+
+<Note>
+This is a read-only setting that's automatically updated. Clearing cache may reset this value.
+</Note>
+
+## Related Commands
+
+- [Scanning](/reference/commands/scanning) - Run a fresh scan after clearing cache
+- [Show Menu](/reference/commands/show-menu) - View updated results after clearing cache

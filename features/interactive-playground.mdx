@@ -1,0 +1,183 @@
+---
+title: Interactive Playground
+description: Customize and preview SVG components in real-time with the integrated playground
+---
+
+The Interactive Playground is a powerful feature within the DevTools panel that allows you to preview, customize, and experiment with your SVG components in real-time. It provides a complete development environment for working with individual icons.
+
+## Accessing the Playground
+
+The Playground opens automatically when you:
+
+1. **Click any SVG component** in the Dashboard or Home view
+2. The component is loaded into the Playground with its original code
+3. The component name is copied to your clipboard for easy pasting
+
+<Note>
+The Playground is part of the DevTools panel and is displayed in the top section by default.
+</Note>
+
+## Playground Features
+
+### Visual Preview
+
+The Playground displays your selected SVG component in a preview card:
+
+- **Centered display** with optimal sizing
+- **Customizable background color** to test icon visibility
+- **Real-time updates** as you modify the code
+- **Error handling** with visual indicators if the SVG is invalid
+
+### Background Color Customization
+
+Test your icons against different backgrounds:
+
+- **Color picker** with RGB and hex input
+- **Preset color palette** for quick selection
+- **Transparency support** for testing alpha channels
+- **Remembered settings** that persist across sessions
+
+<Tip>
+Use the color picker to test how your icons look against your application's theme colors.
+</Tip>
+
+### Integrated Code Editor
+
+The Playground includes a full-featured code editor:
+
+- **Syntax highlighting** for JSX/TSX code
+- **Real-time preview** updates as you type
+- **VS Code Monaco Editor** integration for familiar editing experience
+- **Toggle visibility** to maximize preview space when needed
+
+<Card title="Code Editor" icon="code">
+  The code editor uses the same Monaco Editor that powers VS Code, providing syntax highlighting, auto-completion, and familiar keyboard shortcuts.
+</Card>
+
+## Playground Actions
+
+The Playground toolbar provides several quick actions:
+
+### Show/Hide Code
+
+- **Toggle button** with code tag icon
+- Click to expand/collapse the code editor
+- Preview remains visible when code is hidden
+
+### Copy Code
+
+- **Copy icon button** copies the current SVG code to clipboard
+- Includes any modifications you've made
+- Success notification confirms the copy action
+
+```tsx
+// Example: Copy modified SVG code
+const handleCopyCode = async () => {
+  const code = editorRef.current?.getValue()
+  await copyToClipboard(code)
+}
+```
+
+### Reset Code
+
+- **Refresh icon button** restores the original component code
+- Discards all modifications
+- Useful for starting over after experiments
+
+### More Actions Menu
+
+Additional actions available in the menu:
+
+- **Download as SVG** - Export the component as an SVG file
+- **Download as PNG** - Export as a raster image
+- **Open in Editor** - Jump to the source file in VS Code
+- **Copy component name** - Copy just the name without code
+
+<Accordion title="Download Options">
+  When downloading, the SVG is rendered with your current modifications and background settings. PNG exports use the current preview dimensions and colors.
+</Accordion>
+
+## Real-time Code Editing
+
+The code editor provides a powerful editing experience:
+
+### Features
+
+- **Live preview updates** - Changes appear instantly in the preview card
+- **Syntax validation** - Invalid SVG/JSX is highlighted
+- **Auto-formatting** - Code is formatted for readability
+- **Undo/Redo** - Full history of your changes
+
+### Supported Modifications
+
+You can edit:
+
+- SVG attributes (width, height, viewBox, etc.)
+- Path data and shapes
+- Colors and styles
+- Transform properties
+- Animation elements
+
+<Tip>
+Experiment with different SVG properties to understand how your icons are constructed. Changes are temporary and don't affect the source file unless you copy and paste them back.
+</Tip>
+
+## State Management
+
+The Playground maintains state for:
+
+- **Currently selected component** - Stored in Redux (`PlaygroundSlice`)
+- **Background color preference** - Persisted across sessions
+- **Code editor state** - Current modifications and cursor position
+- **Expanded/collapsed state** - Whether the code editor is visible
+
+```typescript
+// Redux state structure
+interface PlaygroundState {
+  recentlySelected?: SVGComponent
+  isOpenDevTools: boolean
+  isInitialized: Record<string, boolean>
+}
+```
+
+## Integration with Source Files
+
+The Playground connects directly to your source code:
+
+- **File location tracking** - Knows where the component is defined
+- **Line/column information** - Precise position in the source file
+- **Jump to definition** - Open the file at the exact component location
+- **Temporary file support** - Works with uploaded/dropped SVG files too
+
+<Note>
+Components from uploaded files (temporary) have limited features - you can't mark them as favorites or jump to their source since they don't exist in your workspace.
+</Note>
+
+## Keyboard Shortcuts
+
+When the code editor is focused:
+
+- **Ctrl/Cmd + S** - Copy code (browser default prevented)
+- **Ctrl/Cmd + Z** - Undo changes
+- **Ctrl/Cmd + Shift + Z** - Redo changes
+- **Ctrl/Cmd + F** - Find in code
+- **Ctrl/Cmd + H** - Find and replace
+
+## Performance Optimization
+
+The Playground is optimized for smooth performance:
+
+- **React.memo** wraps components to prevent unnecessary re-renders
+- **Debounced updates** when typing in the code editor
+- **Lazy loading** of the Monaco Editor to reduce initial load time
+- **Efficient SVG rendering** using browser-native capabilities
+
+<Accordion title="Technical Implementation">
+  The Playground component (`client/src/core/components/DevTools/Playground/Playground.tsx`) uses:
+  
+  - React hooks for state management
+  - Redux for global state (selected component)
+  - Monaco Editor for code editing
+  - Material-UI components for the interface
+  - Custom hooks (`usePlayground`) for business logic
+</Accordion>

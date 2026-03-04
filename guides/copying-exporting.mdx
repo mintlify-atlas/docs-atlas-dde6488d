@@ -1,0 +1,268 @@
+---
+title: Copying & Exporting
+description: Copy component names, download SVG/PNG files, and open source files directly from the viewer
+---
+
+View Exports SVG provides comprehensive tools to copy, export, and work with your SVG components. This guide covers all available actions for clipboard operations, file downloads, and editor integration.
+
+## Quick Copy Actions
+
+The fastest way to use icons in your code is through the clipboard copy features.
+
+### Copy Component Name
+
+Copy just the component name to your clipboard:
+
+<Steps>
+  <Step title="Select an Icon">
+    Click on any icon card in the viewer to select it
+  </Step>
+
+  <Step title="Open Context Menu">
+    Right-click the icon to open the context menu
+  </Step>
+
+  <Step title="Copy Name">
+    Select **"Copy Name"** from the menu
+  </Step>
+</Steps>
+
+This copies the raw component name (e.g., `IconArrowRight`) to your clipboard.
+
+<Tip>
+  Use this when you need to import the component: `import { IconArrowRight } from './icons'`
+</Tip>
+
+### Copy Code Snippet
+
+Copy a ready-to-use JSX/TSX code snippet:
+
+<Steps>
+  <Step title="Right-Click Icon">
+    Right-click any icon in the viewer
+  </Step>
+
+  <Step title="Select Copy Snippet">
+    Choose **"Copy Code Snippet"** from the context menu
+  </Step>
+</Steps>
+
+This copies the component as JSX (e.g., `<IconArrowRight />`) directly to your clipboard.
+
+<Note>
+  After copying, you'll see a success notification: "Copied [ComponentName] to clipboard"
+</Note>
+
+## Exporting SVG Files
+
+Download your icons as standalone SVG files for use in design tools or other projects.
+
+### Download as SVG
+
+<Steps>
+  <Step title="Select Icon in Playground">
+    Click an icon to open it in the DevTools playground
+  </Step>
+
+  <Step title="Customize (Optional)">
+    Adjust colors, size, and other properties in the playground if desired
+  </Step>
+
+  <Step title="Open Actions Menu">
+    Right-click the icon in the playground or use the actions menu
+  </Step>
+
+  <Step title="Download SVG">
+    Select **"Download as SVG"** from the menu
+  </Step>
+</Steps>
+
+The SVG file downloads with the component name (e.g., `IconArrowRight.svg`).
+
+### Copy SVG Markup
+
+Copy the raw SVG XML to your clipboard:
+
+1. Right-click the icon in the playground
+2. Select **"Copy as SVG"**
+3. The complete SVG markup is copied, including your customizations
+
+<Accordion title="Example SVG Output">
+  ```xml
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12h14m-7-7l7 7-7 7" stroke="#0a0a0a" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  ```
+</Accordion>
+
+## Exporting PNG Files
+
+Convert SVG icons to raster PNG format for use in applications that don't support vector graphics.
+
+### Download as PNG
+
+<Steps>
+  <Step title="Configure Icon">
+    Open the icon in the playground and adjust properties as needed
+  </Step>
+
+  <Step title="Right-Click Icon">
+    Right-click the icon in the playground
+  </Step>
+
+  <Step title="Select Download PNG">
+    Choose **"Download as PNG"** from the actions menu
+  </Step>
+</Steps>
+
+The extension:
+1. Serializes the current SVG
+2. Creates a blob URL
+3. Renders the SVG to an HTML image element
+4. Draws the image to a canvas
+5. Converts the canvas to PNG
+6. Triggers the download
+
+<Note>
+  PNG exports preserve all customizations made in the playground, including colors, size, stroke width, etc.
+</Note>
+
+### Copy as PNG
+
+Copy a PNG image directly to your clipboard:
+
+1. Select an icon in the playground
+2. Right-click and choose **"Copy as PNG"**
+3. The PNG image is copied to your system clipboard
+4. Paste directly into design tools, chat applications, or documents
+
+<Tip>
+  This is perfect for quickly sharing icon previews with your team in Slack, Teams, or email.
+</Tip>
+
+## Editor Integration
+
+Jump directly to the source code of any icon component.
+
+### Open Source File
+
+<Steps>
+  <Step title="Right-Click Icon">
+    Right-click any icon in the viewer or playground
+  </Step>
+
+  <Step title="Open in Editor">
+    Select **"Open in Editor"** from the context menu
+  </Step>
+</Steps>
+
+This action:
+- Opens the source file containing the component
+- Positions the cursor at the component's start location
+- Focuses the editor on that file
+
+<Note>
+  The extension uses the component's location data (`location.file` and `location.start`) to navigate to the exact line where the component is defined.
+</Note>
+
+## Available Actions Menu
+
+All copy and export actions are available through the context menu:
+
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| **Copy Name** | - | Copies component name only |
+| **Copy Code Snippet** | - | Copies JSX fragment `<ComponentName />` |
+| **Copy as SVG** | - | Copies raw SVG markup |
+| **Copy as PNG** | - | Copies PNG image to clipboard |
+| **Download as SVG** | - | Saves SVG file |
+| **Download as PNG** | - | Saves PNG file |
+| **Open in Editor** | - | Opens source file at component location |
+
+## Context Menu Structure
+
+The context menu is organized into logical sections:
+
+```
+┌─────────────────────────┐
+│ Copy Name               │
+│ Copy Code Snippet       │
+├─────────────────────────┤  ← Divider
+│ Open in Editor          │
+├─────────────────────────┤  ← Divider
+│ Copy as SVG             │
+│ Copy as PNG             │
+├─────────────────────────┤  ← Divider
+│ Download as SVG         │
+│ Download as PNG         │
+└─────────────────────────┘
+```
+
+## Clipboard Integration
+
+The extension uses the modern Clipboard API for all copy operations:
+
+### Text Clipboard
+
+For component names, snippets, and SVG markup:
+
+```javascript
+navigator.clipboard.writeText(content)
+```
+
+### Image Clipboard
+
+For PNG images:
+
+```javascript
+navigator.clipboard.write([
+  new ClipboardItem({ 'image/png': blob })
+])
+```
+
+<Note>
+  All clipboard operations include error handling and show success/error notifications in the VS Code UI.
+</Note>
+
+## Error Handling
+
+The extension provides feedback for all operations:
+
+- **Success**: Green notification showing what was copied/downloaded
+- **Errors**: Red notification with error details
+- **Console Logs**: Detailed error information in the developer console
+
+<Tip>
+  If clipboard operations fail, check your browser/VS Code permissions for clipboard access.
+</Tip>
+
+## Performance Considerations
+
+### SVG Operations
+- Instant - no conversion required
+- Minimal memory usage
+- Works offline
+
+### PNG Operations
+- Requires canvas rendering
+- Memory usage depends on icon size
+- May take a moment for complex/large icons
+
+## Keyboard Shortcuts
+
+While there are no built-in keyboard shortcuts for copy/export actions, you can:
+
+1. Open VS Code keyboard shortcuts (`Ctrl+K Ctrl+S`)
+2. Search for "View Exports SVG"
+3. Assign custom keybindings to frequently used commands
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customize Properties" icon="sliders" href="/guides/customizing-properties">
+    Learn how to adjust icon appearance
+  </Card>
+  <Card title="Configuration" icon="gear" href="/configuration/settings">
+    Explore all extension settings
+  </Card>
+</CardGroup>

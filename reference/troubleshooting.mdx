@@ -1,0 +1,459 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for View Exports SVG extension
+icon: wrench
+---
+
+This guide helps you resolve common issues when using the View Exports SVG extension. Most problems can be solved by following the steps below.
+
+## Common Issues
+
+<Accordion title="Icons not showing in the viewer">
+  
+  ### Possible Causes
+  
+  1. **Missing xmlns attribute**
+     
+     The SVG component must include the `xmlns="http://www.w3.org/2000/svg"` attribute:
+     
+     ```tsx
+     // ❌ Won't work
+     export const Icon = () => (
+       <svg viewBox="0 0 24 24">
+         <path d="M..." />
+       </svg>
+     )
+     
+     // ✅ Works correctly
+     export const Icon = () => (
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+         <path d="M..." />
+       </svg>
+     )
+     ```
+  
+  2. **Invalid file type**
+     
+     Ensure your file has the correct extension:
+     - `.js` or `.jsx` for JavaScript
+     - `.ts` or `.tsx` for TypeScript
+     - **Note:** `.d.ts` definition files are excluded
+  
+  3. **Component not exported**
+     
+     By default, only exported components are shown. Enable the setting to show non-exported components:
+     
+     ```json
+     {
+       "JT-View-Exports-SVG.showNotExportedIcons": true
+     }
+     ```
+  
+  4. **Invalid SVG structure**
+     
+     The root element must be a valid SVG tag, not a Fragment:
+     
+     ```tsx
+     // ❌ Won't work
+     export const Icon = () => (
+       <>
+         <svg xmlns="http://www.w3.org/2000/svg">...</svg>
+       </>
+     )
+     
+     // ✅ Works correctly
+     export const Icon = () => (
+       <svg xmlns="http://www.w3.org/2000/svg">...</svg>
+     )
+     ```
+
+</Accordion>
+
+<Accordion title="Scanning not finding all icons">
+  
+  ### Check Asset Paths
+  
+  Configure specific directories where your icons are located:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.assetsPath": [
+      "src/components/icons",
+      "src/assets/svg"
+    ]
+  }
+  ```
+  
+  ### Review Ignored Directories
+  
+  Make sure your icon directories aren't being ignored:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.ignoreDirectories": [
+      "**/node_modules",
+      "**/dist",
+      "**/.git"
+    ]
+  }
+  ```
+  
+  <Warning>
+    The extension uses glob patterns for ignore rules. Be careful not to accidentally exclude your icon directories.
+  </Warning>
+  
+  ### File Pattern Matching
+  
+  The extension only scans files matching this pattern:
+  
+  ```
+  Language: javascript, typescript, javascriptreact, typescriptreact
+  Files: *.js, *.jsx, *.ts, *.tsx (excluding *.d.ts)
+  ```
+  
+  ### Force Re-scan
+  
+  1. Clear the cache: Click the trash icon in the panel toolbar
+  2. Run the scan command: `View Exports SVG: Start Scanning` from the Command Palette
+
+</Accordion>
+
+<Accordion title="Performance issues with large projects">
+  
+  ### Optimize Asset Paths
+  
+  Instead of scanning the entire workspace, specify only the directories containing SVG components:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.assetsPath": [
+      "src/icons"
+    ]
+  }
+  ```
+  
+  ### Exclude Large Directories
+  
+  Add directories with many files to the ignore list:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.ignoreDirectories": [
+      "**/node_modules",
+      "**/dist",
+      "**/build",
+      "**/.next",
+      "**/coverage"
+    ]
+  }
+  ```
+  
+  ### Limit Recent Icons
+  
+  Reduce the number of recent icons displayed:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.recentIcons.limitShowIcons": 5
+  }
+  ```
+  
+  <Tip>
+    For optimal performance in large projects, combine specific asset paths with comprehensive ignore patterns.
+  </Tip>
+
+</Accordion>
+
+<Accordion title="Panel not opening or showing errors">
+  
+  ### Reload the Window
+  
+  Sometimes a simple reload fixes panel issues:
+  
+  1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+  2. Run: `Developer: Reload Window`
+  
+  ### Check Extension Activation
+  
+  The extension activates when you:
+  - Right-click a `.js`, `.jsx`, `.ts`, or `.tsx` file
+  - Run `View Exports SVG: Start Scanning` from Command Palette
+  
+  ### Verify File Context
+  
+  The context menu only appears for files matching:
+  
+  ```
+  resourceLangId: javascript, typescript, javascriptreact, typescriptreact
+  resourceFilename: *.js, *.jsx, *.ts, *.tsx (not *.d.ts)
+  ```
+  
+  ### Check for Conflicting Extensions
+  
+  Disable other SVG-related extensions temporarily to identify conflicts.
+
+</Accordion>
+
+<Accordion title="Icons not copying to clipboard">
+  
+  ### Clipboard Permissions
+  
+  Ensure VS Code has clipboard access permissions on your operating system.
+  
+  ### What Gets Copied
+  
+  When you click an icon, only the component **name** is copied to the clipboard, not the SVG code itself.
+  
+  ```tsx
+  // If you click on this icon:
+  export const HomeIcon = () => <svg>...</svg>
+  
+  // This gets copied:
+  HomeIcon
+  ```
+  
+  ### Alternative: Use the Playground
+  
+  To copy the full SVG code:
+  1. Click an icon to open it in the Playground
+  2. Copy the code from the code editor panel
+
+</Accordion>
+
+<Accordion title="Clearing cache doesn't solve the issue">
+  
+  ### Manual Cache Clear
+  
+  The cache is stored in VS Code's global storage. To completely reset:
+  
+  1. Click the trash icon in the panel toolbar
+  2. Close and reopen VS Code
+  3. Re-run the scan command
+  
+  ### What the Cache Stores
+  
+  The cache contains:
+  - Last scan date
+  - Favorite icons
+  - Recent icons
+  - Workspace SVG component data
+  
+  <Note>
+    Clearing cache will remove your favorites and recent icons. They cannot be recovered.
+  </Note>
+  
+  ### Check Last Scan Date
+  
+  You can verify when the last scan occurred:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.lastScanDate": "2024-03-15T10:30:00.000Z"
+  }
+  ```
+  
+  This is a read-only setting that updates automatically after each scan.
+
+</Accordion>
+
+<Accordion title="Theme not matching VS Code">
+  
+  ### Reload Theme
+  
+  Click the sync icon in the panel toolbar to reload the current theme.
+  
+  ### Theme Initialization
+  
+  If the theme doesn't load:
+  1. Close the View Exports SVG panel
+  2. Reload VS Code window
+  3. Reopen the panel
+  
+  ### No Theme Found Error
+  
+  This occurs when the extension cannot detect the workspace theme. Try:
+  1. Ensure you have an active workspace folder
+  2. Check VS Code theme settings are properly configured
+  3. Switch to a different VS Code theme and back
+
+</Accordion>
+
+<Accordion title="Playground not showing component preview">
+  
+  ### Component Validation
+  
+  The playground requires valid SVG components. Check:
+  1. Root element is an SVG tag with xmlns attribute
+  2. No syntax errors in the JSX code
+  3. All JSX tags are properly closed
+  
+  ### Error Messages
+  
+  The extension provides detailed error messages:
+  - **"Invalid SVG tag"** - Root element is not a valid SVG tag
+  - **"Invalid xmlns attribute"** - Missing or incorrect namespace
+  - **"Empty opening element"** - Malformed JSX structure
+  
+  ### Playground Generation Errors
+  
+  If you see "Error generating SVG playground":
+  1. Check the browser console for detailed error messages
+  2. Verify the component syntax is valid JSX
+  3. Ensure all dynamic props have default values
+
+</Accordion>
+
+<Accordion title="Search not returning expected results">
+  
+  ### Minimum Search Length
+  
+  Search requires at least 3 characters:
+  
+  ```
+  "Ho" → Shows: "Please enter at least 3 characters to search..."
+  "Hom" → Shows results matching "Hom"
+  ```
+  
+  ### Search is Case-Insensitive
+  
+  Search matches are not case-sensitive:
+  
+  ```tsx
+  "home" will match:
+  - HomeIcon
+  - homeIcon  
+  - HOMEICON
+  - MyHomeComponent
+  ```
+  
+  ### Search Scope
+  
+  Search only filters component **names**, not:
+  - File paths
+  - Props
+  - SVG content
+  - Tags
+  
+  <Tip>
+    Search looks for partial matches anywhere in the component name, not just at the beginning.
+  </Tip>
+
+</Accordion>
+
+<Accordion title="DevTools panel not opening">
+  
+  ### Check Panel State
+  
+  Look for the DevTools toggle button in the panel toolbar (wrench icon).
+  
+  ### Configuration Setting
+  
+  DevTools can be set to open automatically when clicking an icon:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.defaultClickToOpenDevTools": true
+  }
+  ```
+  
+  ### Manual Toggle
+  
+  Use the toolbar button or run the command:
+  - `View Exports SVG: Open DevTools`
+  - `View Exports SVG: Close DevTools`
+
+</Accordion>
+
+## Error Messages Reference
+
+Common error messages and their meanings:
+
+| Error Message | Cause | Solution |
+|--------------|-------|----------|
+| "Invalid SVG tag: Fragment" | Root element is a React Fragment | Use SVG element as root |
+| "Invalid xmlns attribute" | Missing or wrong namespace | Add `xmlns="http://www.w3.org/2000/svg"` |
+| "No SVG components found" | No exported SVG components in file | Check exports and SVG structure |
+| "Please enter at least 3 characters" | Search query too short | Enter 3 or more characters |
+| "No results found" | No components match search | Try different search terms |
+| "Error extracting SVG component" | Parsing error in component | Check JSX syntax and structure |
+
+## File Type Troubleshooting
+
+<Warning>
+  The extension will **not** activate for:
+  - TypeScript definition files (`.d.ts`)
+  - Non-JSX JavaScript files without proper language ID
+  - Files in `node_modules` or other ignored directories
+  - Files without proper export statements
+</Warning>
+
+### Verify File Language Mode
+
+Check the language mode in VS Code's status bar:
+1. Open your SVG component file
+2. Look at the bottom-right corner of VS Code
+3. It should show: `JavaScript React` or `TypeScript React`
+
+If it shows just `JavaScript` or `TypeScript`, change it to the React variant.
+
+## Getting More Help
+
+### Check Console Logs
+
+For detailed debugging information:
+1. Open VS Code Developer Tools: `Help > Toggle Developer Tools`
+2. Check the Console tab for error messages
+3. Look for messages prefixed with "View Exports SVG"
+
+### Report Issues
+
+If you continue experiencing issues:
+
+1. Visit the [GitHub Issues page](https://github.com/JairTorres1003/JT-View-Exports-SVG/issues)
+2. Provide:
+   - VS Code version
+   - Extension version
+   - Sample code that reproduces the issue
+   - Error messages from the console
+   - Your configuration settings
+
+<Tip>
+  Before reporting, try reproducing the issue with minimal configuration and in a fresh workspace.
+</Tip>
+
+## Configuration Checklist
+
+Use this checklist to verify your setup:
+
+- [ ] Files have correct extensions (`.js`, `.jsx`, `.ts`, `.tsx`)
+- [ ] SVG components include `xmlns="http://www.w3.org/2000/svg"`
+- [ ] Components are exported using ES6 syntax
+- [ ] Asset paths are configured correctly
+- [ ] Ignored directories don't include icon folders
+- [ ] Cache is cleared if seeing stale data
+- [ ] VS Code is on a recent version
+- [ ] Extension is up to date
+
+## Performance Optimization
+
+For the best experience:
+
+```json
+{
+  // Scan only icon directories
+  "JT-View-Exports-SVG.assetsPath": ["src/icons"],
+  
+  // Exclude build artifacts
+  "JT-View-Exports-SVG.ignoreDirectories": [
+    "**/node_modules",
+    "**/dist",
+    "**/build"
+  ],
+  
+  // Limit recent icons
+  "JT-View-Exports-SVG.recentIcons.limitShowIcons": 10,
+  
+  // Hide non-exported components if not needed
+  "JT-View-Exports-SVG.showNotExportedIcons": false
+}
+```

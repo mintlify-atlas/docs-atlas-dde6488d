@@ -1,0 +1,150 @@
+---
+title: Development Setup
+description: Set up your development environment for contributing to View Exports SVG
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (version 18 or higher recommended)
+- **npm** (comes with Node.js)
+- **Visual Studio Code** (version 1.109.0 or higher)
+- **Git** for version control
+
+## Getting Started
+
+Follow these steps to set up your local development environment:
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the View Exports SVG repository to your local machine:
+    
+    ```bash
+    git clone https://github.com/JairTorres1003/JT-View-Exports-SVG.git
+    ```
+    
+    Navigate to the project directory:
+    
+    ```bash
+    cd JT-View-Exports-SVG
+    ```
+  </Step>
+
+  <Step title="Install all dependencies">
+    The extension has dependencies in both the root and the client directory. Use the following command to install all dependencies at once:
+    
+    ```bash
+    npm run install:all
+    ```
+    
+    This command will:
+    - Install root-level dependencies for the extension
+    - Navigate to the `client/` directory and install webview UI dependencies
+    
+    <Note>
+      The `install:all` script runs `npm install` in the root directory, then `cd client && npm install` for the webview UI.
+    </Note>
+  </Step>
+
+  <Step title="Build the webview UI">
+    Before you can run the extension, you need to build the webview UI:
+    
+    ```bash
+    npm run client:build
+    ```
+    
+    This compiles the React-based webview interface using Vite.
+  </Step>
+
+  <Step title="Compile the extension">
+    Compile the TypeScript extension code:
+    
+    ```bash
+    npm run compile
+    ```
+    
+    This generates the JavaScript output in the `out/` directory.
+  </Step>
+
+  <Step title="Launch the extension">
+    Open the project in Visual Studio Code:
+    
+    ```bash
+    code .
+    ```
+    
+    Press `F5` to open a new VS Code window with the extension loaded for testing.
+    
+    <Note>
+      The Extension Development Host window will launch with your local version of the extension active.
+    </Note>
+  </Step>
+</Steps>
+
+## Development Workflow
+
+Once your environment is set up, you can use the following commands during development:
+
+### Watch Mode
+
+For active development, you can run the extension in watch mode:
+
+```bash
+npm run watch
+```
+
+This will automatically recompile the extension when you make changes to TypeScript files.
+
+### Client Development
+
+To work on the webview UI with hot reload:
+
+```bash
+npm run client:dev
+```
+
+### Code Quality
+
+Format and check your code using Biome:
+
+```bash
+# Format code
+npm run biome:format
+
+# Check and fix issues
+npm run biome:check
+```
+
+## Environment Setup
+
+<Warning>
+  Make sure you have VS Code version 1.109.0 or higher installed, as specified in the `engines` field of `package.json`.
+</Warning>
+
+## Troubleshooting
+
+### Dependencies Not Installing
+
+If you encounter issues with `npm run install:all`, try:
+
+1. Delete `node_modules/` and `package-lock.json` in both root and client directories
+2. Run `npm install` manually in the root directory
+3. Run `npm install` manually in the `client/` directory
+
+### Extension Not Loading
+
+If the extension doesn't load when pressing `F5`:
+
+1. Ensure you've run `npm run client:build`
+2. Ensure you've run `npm run compile`
+3. Check the Debug Console in VS Code for error messages
+4. Try cleaning the output directory: `npm run compile:clean`
+
+## Next Steps
+
+Now that your development environment is set up, you can:
+
+- Learn about the [project architecture](/development/architecture)
+- Explore the [build process](/development/building)
+- Run the [test suite](/development/testing)

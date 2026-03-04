@@ -1,0 +1,64 @@
+---
+title: Settings Overview
+description: Complete reference of all available configuration settings for View Exports SVG
+---
+
+View Exports SVG provides several configuration settings to customize the extension's behavior. All settings can be configured in your VS Code settings (File > Preferences > Settings).
+
+## Available Settings
+
+### Display Settings
+
+<ParamField path="JT-View-Exports-SVG.defaultExpandAll" type="boolean" default="false">
+  Controls whether all icon groups are expanded by default when opening the extension panel.
+</ParamField>
+
+<ParamField path="JT-View-Exports-SVG.defaultClickToOpenDevTools" type="boolean" default="true">
+  Determines if clicking an icon automatically opens the developer tools panel.
+</ParamField>
+
+<ParamField path="JT-View-Exports-SVG.showNotExportedIcons" type="boolean" default="false">
+  When enabled, shows SVG icons that are not exported from your files.
+</ParamField>
+
+### Path Configuration
+
+<ParamField path="JT-View-Exports-SVG.assetsPath" type="array" default="[]">
+  List of custom paths where the extension should look for SVG icon files. See [Assets Path](/configuration/assets-path) for details.
+</ParamField>
+
+<ParamField path="JT-View-Exports-SVG.ignoreDirectories" type="array" default="[]">
+  Directories to exclude from scanning. See [Ignore Directories](/configuration/ignore-directories) for details.
+</ParamField>
+
+### Icon Properties
+
+<ParamField path="JT-View-Exports-SVG.defaultIconProperties" type="object">
+  Default properties applied to icons in the preview panel. See [Default Properties](/configuration/default-properties) for details.
+</ParamField>
+
+### Organization
+
+<ParamField path="JT-View-Exports-SVG.groupPatterns" type="object" default="{}">
+  Custom patterns for organizing icons into groups. See [Group Patterns](/configuration/group-patterns) for details.
+</ParamField>
+
+### Recent Icons
+
+<ParamField path="JT-View-Exports-SVG.recentIcons.showIcons" type="boolean" default="true">
+  Controls whether recently used icons are displayed in the extension.
+</ParamField>
+
+<ParamField path="JT-View-Exports-SVG.recentIcons.limitShowIcons" type="number" default="10">
+  Maximum number of recent icons to display. Value must be between 1 and 50.
+</ParamField>
+
+### System Settings
+
+<ParamField path="JT-View-Exports-SVG.lastScanDate" type="string" default="">
+  Stores the timestamp of the last scan operation. This is a read-only setting managed by the extension.
+</ParamField>
+
+## Configuration Scope
+
+Most settings are workspace-scoped, meaning they can be configured differently for each project. Some settings like `defaultExpandAll`, `defaultClickToOpenDevTools`, and recent icons settings are application-scoped and apply globally across all workspaces.

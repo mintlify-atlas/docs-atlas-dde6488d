@@ -1,122 +1,117 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "View Exports SVG",
+  "theme": "palm",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#ebd7a7",
+    "light": "#83b9c3",
+    "dark": "#2b3c58"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "https://media.brand.dev/f9d3e700-9df3-4a3e-9e01-89bba241fcd6.svg",
+  "logo": {
+    "light": "https://media.brand.dev/f9d3e700-9df3-4a3e-9e01-89bba241fcd6.svg",
+    "dark": "https://media.brand.dev/f9d3e700-9df3-4a3e-9e01-89bba241fcd6.svg"
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/JairTorres1003/JT-View-Exports-SVG"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/JairTorres1003/JT-View-Exports-SVG"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "installation",
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Core Features",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "features/devtools-panel",
+              "features/interactive-playground",
+              "features/workspace-scanning",
+              "features/icon-management"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Usage Guide",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "guides/viewing-icons",
+              "guides/searching-filtering",
+              "guides/copying-exporting",
+              "guides/customizing-properties"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Configuration",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "configuration/settings",
+              "configuration/assets-path",
+              "configuration/ignore-directories",
+              "configuration/default-properties",
+              "configuration/group-patterns"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Commands",
             "pages": [
-              "api-reference/introduction"
+              "reference/commands/show-menu",
+              "reference/commands/scanning",
+              "reference/commands/dev-tools",
+              "reference/commands/expand-collapse",
+              "reference/commands/reload-theme",
+              "reference/commands/clear-cache"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Advanced",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "reference/svg-support",
+              "reference/framework-compatibility",
+              "reference/troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Development",
+        "groups": [
+          {
+            "group": "Contributing",
+            "pages": [
+              "development/setup",
+              "development/architecture",
+              "development/building",
+              "development/testing"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "development/changelog",
+              "development/contributing-guidelines",
+              "development/code-of-conduct"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

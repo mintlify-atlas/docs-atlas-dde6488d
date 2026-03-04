@@ -1,0 +1,96 @@
+---
+title: "Show Menu Command"
+description: "Open the View Exports SVG viewer to explore and search SVG icons in your files"
+icon: "eye"
+---
+
+The `JT-View-Exports-SVG.showMenu` command opens the View Exports SVG viewer panel, allowing you to explore, search, and interact with SVG icon components exported from your JavaScript/TypeScript files.
+
+## Command Details
+
+<CardGroup cols={2}>
+  <Card title="Command ID" icon="code">
+    `JT-View-Exports-SVG.showMenu`
+  </Card>
+  <Card title="Display Title" icon="tag">
+    View Exports SVG 🔍
+  </Card>
+</CardGroup>
+
+## Availability
+
+This command is available in the following contexts:
+
+- **Explorer Context Menu**: Right-click on supported files in the file explorer
+- **Editor Context Menu**: Right-click within a supported file in the editor
+
+### Supported File Types
+
+The command is only available for files that meet these criteria:
+
+<Note>
+The file must be a JavaScript or TypeScript file (`.js`, `.jsx`, `.ts`, `.tsx`) but **not** a TypeScript declaration file (`.d.ts`).
+</Note>
+
+**Specific when clause conditions:**
+
+- `resourceLangId` must match: `javascript`, `typescript`, `javascriptreact`, or `typescriptreact`
+- `resourceFilename` must match the pattern: `^(?!.*\.d\.ts$).*\.(ts|tsx|js|jsx)$`
+
+## Usage
+
+### From Explorer or Editor Context Menu
+
+1. Right-click on a supported JavaScript/TypeScript file
+2. Select **View Exports SVG 🔍** from the context menu
+3. The viewer panel opens, displaying all SVG icon components found in the file
+
+### Selecting Multiple Files
+
+You can select multiple files in the explorer and run the command to process them all at once:
+
+1. Select multiple supported files in the explorer (Ctrl/Cmd + click)
+2. Right-click on the selection
+3. Choose **View Exports SVG 🔍**
+4. The viewer will process and display icons from all selected files
+
+## Behavior
+
+<AccordionGroup>
+  <Accordion title="When viewer is not open">
+    - Creates a new webview panel
+    - Initializes the viewer interface
+    - Processes the selected file(s) for SVG exports
+    - Displays the extracted SVG components
+  </Accordion>
+  
+  <Accordion title="When viewer is already open">
+    - Reuses the existing webview panel
+    - Updates the content with the newly selected file(s)
+    - Maintains your current viewer state and preferences
+  </Accordion>
+  
+  <Accordion title="When no files are selected">
+    - Opens an empty viewer panel
+    - Ready to accept file selections or workspace scanning
+  </Accordion>
+</AccordionGroup>
+
+## What Gets Extracted
+
+The command processes files and extracts:
+
+- SVG components exported from the file
+- Component names and export information
+- SVG element properties and attributes
+- Component source locations
+
+<Tip>
+For best results, ensure your SVG components follow React/JSX patterns with proper exports.
+</Tip>
+
+## Related Commands
+
+- [Scanning](/reference/commands/scanning) - Scan the entire workspace for SVG exports
+- [Expand/Collapse](/reference/commands/expand-collapse) - Control icon expansion state in the viewer
+- [Clear Cache](/reference/commands/clear-cache) - Clear cached scan results

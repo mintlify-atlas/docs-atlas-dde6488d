@@ -1,0 +1,161 @@
+---
+title: "Expand/Collapse Commands"
+description: "Control the expansion state of all SVG icons in the viewer simultaneously"
+icon: "arrows-maximize"
+---
+
+The Expand and Collapse commands allow you to quickly expand or collapse all SVG icon components in the viewer at once, making it easier to navigate large icon collections.
+
+## Commands
+
+<CardGroup cols={2}>
+  <Card title="Expand All" icon="maximize">
+    **Command ID:** `JT-View-Exports-SVG.expandAll`
+    
+    **Title:** Expand All Icons
+    
+    **Icon:** `$(expand-all)`
+  </Card>
+  
+  <Card title="Collapse All" icon="minimize">
+    **Command ID:** `JT-View-Exports-SVG.collapseAll`
+    
+    **Title:** Collapse All Icons
+    
+    **Icon:** `$(collapse-all)`
+  </Card>
+</CardGroup>
+
+<Card title="Category" icon="folder">
+  View Exports SVG
+</Card>
+
+## Availability
+
+These commands are contextually available based on the current expansion state.
+
+### Expand All Conditions
+
+<Note>
+Available when all these conditions are met:
+- View Exports SVG panel is active (`activeWebviewPanelId == 'JT-View-Exports-SVG'`)
+- Icons are currently collapsed (`!JT-View-Exports-SVG.isExpanded`)
+- Actions are enabled (`JT-View-Exports-SVG.showActions`)
+</Note>
+
+### Collapse All Conditions
+
+<Note>
+Available when all these conditions are met:
+- View Exports SVG panel is active (`activeWebviewPanelId == 'JT-View-Exports-SVG'`)
+- Icons are currently expanded (`JT-View-Exports-SVG.isExpanded`)
+- Actions are enabled (`JT-View-Exports-SVG.showActions`)
+</Note>
+
+## Usage
+
+### From the Editor Title Bar
+
+When the View Exports SVG panel is active, you'll see the appropriate expansion control in the editor title bar:
+
+<Steps>
+  <Step title="Expand All Icons">
+    When icons are collapsed, click the **expand-all icon** to expand all icons at once
+  </Step>
+  
+  <Step title="Collapse All Icons">
+    When icons are expanded, click the **collapse-all icon** to collapse all icons at once
+  </Step>
+</Steps>
+
+<Tip>
+The button automatically switches between expand and collapse based on the current state.
+</Tip>
+
+### From Command Palette
+
+<Steps>
+  <Step title="Open Command Palette">
+    Press Ctrl/Cmd + Shift + P
+  </Step>
+  
+  <Step title="Search for command">
+    Type "View Exports SVG: Expand All Icons" or "View Exports SVG: Collapse All Icons"
+  </Step>
+  
+  <Step title="Execute">
+    Press Enter to change the expansion state
+  </Step>
+</Steps>
+
+## What Changes
+
+When you expand or collapse icons:
+
+<AccordionGroup>
+  <Accordion title="Expanded State">
+    - All icon details become visible
+    - SVG previews are displayed
+    - Icon properties and attributes are shown
+    - Export information is visible
+    - More vertical space is used
+  </Accordion>
+  
+  <Accordion title="Collapsed State">
+    - Icons show only their names/titles
+    - SVG previews are hidden
+    - Properties are condensed
+    - Less vertical space is used
+    - Easier to scroll through large lists
+  </Accordion>
+</AccordionGroup>
+
+## Configuration
+
+### Default Expansion State
+
+Set the default expansion state when opening the viewer:
+
+```json settings.json
+{
+  "JT-View-Exports-SVG.defaultExpandAll": false
+}
+```
+
+<CardGroup cols={2}>
+  <Card title="false (default)" icon="minimize">
+    Icons start collapsed for easier navigation
+  </Card>
+  
+  <Card title="true" icon="maximize">
+    Icons start expanded to show all details immediately
+  </Card>
+</CardGroup>
+
+## Button Placement
+
+The expand/collapse button appears in the editor title bar at:
+
+- **Navigation group position 1** (`navigation@1`)
+- First button in the viewer's title bar controls
+
+## Use Cases
+
+### When to Expand All
+
+- Comparing multiple icons visually
+- Reviewing icon properties across your collection
+- Taking screenshots or documentation
+- Inspecting export patterns
+
+### When to Collapse All
+
+- Searching for a specific icon by name
+- Working with large icon collections
+- Reducing visual clutter
+- Improving scrolling performance
+
+## Related Commands
+
+- [Show Menu](/reference/commands/show-menu) - Open the viewer to use expansion controls
+- [Developer Tools](/reference/commands/dev-tools) - Inspect individual icon details

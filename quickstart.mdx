@@ -1,80 +1,285 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
+description: Get from zero to viewing your first SVG icons in under 2 minutes
 ---
 
-## Get started in three steps
+This guide will help you start using View Exports SVG to discover and visualize your SVG components. You'll go from installation to viewing your first icons in just a few steps.
 
-Get your documentation site running locally and make your first customization.
+## Prerequisites
 
-### Step 1: Set up your local environment
+Before you begin, make sure you have:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+- Visual Studio Code version 1.109.0 or higher installed
+- View Exports SVG extension installed (see [Installation](/installation))
+- A JavaScript or TypeScript project with SVG components exported from `.js`, `.jsx`, `.ts`, or `.tsx` files
+
+<Info>
+View Exports SVG works with JavaScript and TypeScript files that export SVG components. The extension automatically detects exported SVG elements from React, Preact, and similar frameworks.
+</Info>
+
+## Open your first SVG icons
+
+There are three ways to launch the View Exports SVG viewer. Choose the method that works best for your workflow.
+
+### Method 1: Scan entire workspace
+
+The fastest way to discover all SVG icons in your project is to scan your entire workspace.
+
+<Steps>
+  <Step title="Open the Command Palette">
+    Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS) to open the Command Palette.
+  </Step>
+  
+  <Step title="Run the scanning command">
+    Type `View Exports SVG: Start Scanning` and press Enter.
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    The extension will scan all JavaScript and TypeScript files in your workspace to find exported SVG components.
+  </Step>
+  
+  <Step title="Wait for scanning to complete">
+    You'll see a progress notification while the extension scans your files.
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    Once complete, the View Exports SVG panel will open with all discovered icons.
+  </Step>
+</Steps>
 
-### Step 2: Deploy your changes
+### Method 2: Use the context menu
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+You can also launch the viewer from a specific file or folder using the context menu.
+
+<Steps>
+  <Step title="Locate your icon files">
+    In the VS Code Explorer, navigate to a JavaScript or TypeScript file containing SVG exports.
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
+    The file must have a `.js`, `.jsx`, `.ts`, or `.tsx` extension (excluding `.d.ts` files).
+  </Step>
+  
+  <Step title="Right-click the file">
+    Right-click on the file in the Explorer or in the editor.
+    
+    You can also select multiple files or an entire folder.
+  </Step>
+  
+  <Step title="Select View Exports SVG">
+    From the context menu, select **View Exports SVG 🔍**.
+    
+    The extension will scan the selected file(s) and display any SVG components found.
+  </Step>
+</Steps>
+
+### Method 3: Drag and drop files
+
+Once the viewer is open, you can add more icons by dragging and dropping files.
+
+<Steps>
+  <Step title="Open the viewer">
+    Use Method 1 or Method 2 to open the View Exports SVG panel.
+  </Step>
+  
+  <Step title="Drag SVG files">
+    From the VS Code Explorer, drag and drop JavaScript or TypeScript files containing SVG components onto the View Exports SVG panel.
+    
+    The extension will process the files and add any discovered icons to the viewer.
+  </Step>
+</Steps>
+
+## Explore the interface
+
+Once the View Exports SVG panel opens, you'll see an interactive interface with several key areas:
+
+<Steps>
+  <Step title="Icon grid">
+    The main area displays all discovered SVG components in a grid layout.
+    
+    Each icon shows a preview of the SVG along with its component name.
+  </Step>
+  
+  <Step title="Search and filter">
+    Use the search box at the top to filter icons by name.
+    
+    Type at least 3 characters to start searching.
+  </Step>
+  
+  <Step title="Recent and favorites">
+    View your recently used icons and favorites in dedicated sections.
+    
+    Mark icons as favorites by clicking the star icon for quick access later.
+  </Step>
+  
+  <Step title="DevTools panel">
+    Click any icon to open the DevTools panel (or click the tools icon in the title bar).
+    
+    This panel provides an interactive playground for editing icon properties.
+  </Step>
+</Steps>
+
+<Tip>
+The View Exports SVG interface automatically adapts to your current VS Code theme, ensuring a seamless visual experience.
+</Tip>
+
+## Interact with your icons
+
+Now that you can see your icons, here's what you can do with them:
+
+### Copy component name
+
+<Steps>
+  <Step title="Click an icon">
+    Click on any icon in the grid.
+  </Step>
+  
+  <Step title="Copy to clipboard">
+    The component name is automatically copied to your clipboard.
+    
+    You'll see a confirmation notification.
+  </Step>
+  
+  <Step title="Paste in your code">
+    Paste the component name in your code editor to use the icon in your project.
+  </Step>
+</Steps>
+
+### Use the interactive playground
+
+The DevTools panel includes an interactive playground where you can experiment with icon properties.
+
+<Steps>
+  <Step title="Open DevTools">
+    Click any icon to select it, which automatically opens the DevTools panel.
+    
+    Alternatively, click the tools icon in the title bar.
+  </Step>
+  
+  <Step title="Edit properties">
+    In the code editor within DevTools, modify properties like `size`, `color`, `fill`, `stroke`, `width`, and `height`.
+    
+    The preview updates in real-time as you type.
+  </Step>
+  
+  <Step title="View the preview">
+    See your changes immediately in the live preview area.
+    
+    The playground respects your default icon properties from settings.
+  </Step>
+</Steps>
+
+### Export icons
+
+You can export icons in multiple formats for use outside of VS Code.
+
+<Steps>
+  <Step title="Select an icon">
+    Click on an icon in the grid to select it and open DevTools.
+  </Step>
+  
+  <Step title="Choose export format">
+    In the DevTools panel, find the export options.
+    
+    You can export as SVG or PNG format.
+  </Step>
+  
+  <Step title="Save the file">
+    Click the download button to save the icon to your file system.
+    
+    You'll be prompted to choose a save location.
+  </Step>
+</Steps>
+
+## Available commands
+
+View Exports SVG provides several commands accessible from the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
+
+- **View Exports SVG: Start Scanning** - Scan workspace for all SVG components
+- **View Exports SVG: Reload Theme** - Reload the viewer theme to match your current VS Code theme
+- **View Exports SVG: Clear Cache** - Clear the cached icon data (useful if icons aren't updating)
+
+When the View Exports SVG panel is active, additional commands appear in the title bar:
+
+- **Expand All** / **Collapse All** - Expand or collapse all icon groups
+- **Open DevTools** / **Close DevTools** - Toggle the DevTools panel
+- **Clear Cache** - Clear cached data
+
+## Configure default settings
+
+You can customize View Exports SVG behavior in VS Code settings.
+
+<Steps>
+  <Step title="Open settings">
+    Go to **File > Preferences > Settings** (or `Ctrl+,` / `Cmd+,`).
+  </Step>
+  
+  <Step title="Search for View Exports SVG">
+    Type `View Exports SVG` in the settings search box.
+  </Step>
+  
+  <Step title="Customize settings">
+    Key settings you can configure:
+    
+    - **Default Expand All**: Expand all icon groups by default
+    - **Default Click To Open DevTools**: Automatically open DevTools when clicking an icon
+    - **Assets Path**: Specify custom directories to scan for icons
+    - **Ignore Directories**: Exclude specific directories from scanning
+    - **Default Icon Properties**: Set default values for icon properties in the playground
+  </Step>
+</Steps>
+
+<Note>
+Changes to settings like **Assets Path** or **Ignore Directories** require rescanning your workspace to take effect.
+</Note>
+
+## Troubleshooting
+
+<Accordion title="No SVG components found">
+  If the extension doesn't find any icons:
+  
+  - Ensure your files have `.js`, `.jsx`, `.ts`, or `.tsx` extensions
+  - Verify that your components export SVG elements (not just import them)
+  - Check that the files aren't in ignored directories
+  - Try clearing the cache with **View Exports SVG: Clear Cache** and rescanning
 </Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+<Accordion title="Icons not updating after code changes">
+  The extension caches scanned icons for performance. If you modify an icon component:
+  
+  - Run **View Exports SVG: Clear Cache** from the Command Palette
+  - Rescan your workspace with **View Exports SVG: Start Scanning**
+</Accordion>
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+<Accordion title="DevTools not opening">
+  If clicking an icon doesn't open DevTools:
+  
+  - Check the **Default Click To Open DevTools** setting
+  - Manually open DevTools by clicking the tools icon in the title bar
+  - Ensure the View Exports SVG panel is active
+</Accordion>
 
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
+<Accordion title="Icons appear empty or broken">
+  If icons display incorrectly:
+  
+  - Verify the SVG component exports valid JSX/TSX
+  - Check for syntax errors in your icon files
+  - Ensure all required props have default values or are optional
+  - Try reloading the theme with **View Exports SVG: Reload Theme**
 </Accordion>
 
 ## Next steps
 
-Now that you have your docs running, explore these key features:
+Congratulations! You've successfully viewed your first SVG icons with View Exports SVG. Here are some next steps:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Configuration" icon="gear">
+    Learn about advanced configuration options and customization
+  </Card>
+  
+  <Card title="Features" icon="sparkles">
+    Explore all features including grouping patterns, recent icons, and more
+  </Card>
+  
+  <Card title="Tips & Tricks" icon="lightbulb">
+    Discover productivity tips and advanced workflows
+  </Card>
+  
+  <Card title="Troubleshooting" icon="wrench">
+    Get help with common issues and error messages
+  </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

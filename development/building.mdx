@@ -1,0 +1,334 @@
+---
+title: Building the Extension
+description: Learn how to build View Exports SVG for development and production
+---
+
+## Build Overview
+
+View Exports SVG uses different build processes for the extension and the webview client. Understanding these processes is essential for development and deployment.
+
+## Build Scripts
+
+All build scripts are defined in the root `package.json`. Here are the key commands:
+
+### Development Builds
+
+<CodeGroup>
+
+```bash Standard Development Build
+npm run compile
+```
+
+```bash ESBuild Development Build
+npm run compile:esbuild:dev
+```
+
+```bash Client Development Build
+npm run client:build
+```
+
+</CodeGroup>
+
+### Production Builds
+
+<CodeGroup>
+
+```bash ESBuild Production
+npm run compile:esbuild
+```
+
+```bash Web Extension Production
+npm run compile:esbuild:web
+```
+
+```bash Full Production Build
+npm run vscode:prepublish
+```
+
+</CodeGroup>
+
+## Extension Build Process
+
+### TypeScript Compilation
+
+The extension uses TypeScript with multiple compilation targets:
+
+#### CommonJS Build (Default)
+
+```bash
+npm run compile
+```
+
+This script:
+1. Uses `tsconfig.cjs.json` configuration
+2. Compiles TypeScript to CommonJS format
+3. Outputs to `out/cjs/` directory
+4. Copies type definitions
+5. Resolves path aliases with `tsc-alias`
+
+**Configuration**: `tsconfig.cjs.json`  
+**Output**: `out/cjs/`  
+**Entry Point**: `out/cjs/extension.js`
+
+#### ES Module Build
+
+```bash
+npm run compile:esm
+```
+
+This script:
+1. Uses `tsconfig.esm.json` configuration
+2. Compiles TypeScript to ES Module format
+3. Outputs to `out/esm/` directory
+
+**Configuration**: `tsconfig.esm.json`  
+**Output**: `out/esm/`
+
+#### Type Declarations Build
+
+```bash
+npm run compile:types
+```
+
+Generates TypeScript declaration files (`.d.ts`) for type support.
+
+**Configuration**: `tsconfig.types.json`  
+**Output**: `out/types/`
+
+### ESBuild Compilation
+
+For optimized production builds, the extension uses esbuild:
+
+#### Standard Extension
+
+<CodeGroup>
+
+```bash Development
+npm run compile:esbuild:dev
+```
+
+```bash Production
+npm run compile:esbuild
+```
+
+</CodeGroup>
+
+**Configuration**: `esbuild.config.js`  
+**Features**:
+- Bundle minification
+- Tree shaking
+- Source maps (dev only)
+- Faster build times
+
+#### Web Extension
+
+<CodeGroup>
+
+```bash Development
+npm run compile:esbuild:web:dev
+```
+
+```bash Production
+npm run compile:esbuild:web
+```
+
+</CodeGroup>
+
+**Output**: `out/cjs/web/extension.js`  
+**Use Case**: Browser-based VS Code (vscode.dev)
+
+<Note>
+  The web extension build includes polyfills for Node.js modules not available in browser environments.
+</Note>
+
+### Clean Build
+
+Remove all compiled output before building:
+
+```bash
+npm run compile:clean
+```
+
+This removes the entire `out/` directory.
+
+## Client Build Process
+
+The webview UI (client) is built separately using Vite:
+
+### Development Build
+
+```bash
+npm run client:dev
+```
+
+**Features**:
+- Hot module replacement (HMR)
+- Fast refresh
+- Development server
+- Source maps
+
+### Production Build
+
+```bash
+npm run client:build
+```
+
+This script:
+1. Runs TypeScript type checking (`tsc -b`)
+2. Builds the React app with Vite
+3. Optimizes assets
+4. Outputs to `client/dist/`
+
+**Configuration**: `client/vite.config.ts`  
+**Output**: `client/dist/`  
+**Build Tool**: Vite (using Rolldown)
+
+## Watch Mode
+
+For active development, use watch mode to automatically recompile on changes:
+
+### Extension Watch
+
+<CodeGroup>
+
+```bash TypeScript Watch
+npm run watch
+```
+
+```bash ESBuild Watch
+npm run watch:esbuild
+```
+
+```bash Web Extension Watch
+npm run watch:esbuild:web
+```
+
+</CodeGroup>
+
+The watch mode:
+- Monitors file changes
+- Automatically recompiles
+- Runs `tsc-alias` to resolve path aliases
+- Updates source maps
+
+<Warning>
+  After making changes in watch mode, you'll need to reload the Extension Development Host window (`Ctrl+R` or `Cmd+R`) to see the changes.
+</Warning>
+
+### Client Watch
+
+```bash
+npm run client:dev
+```
+
+The client development server provides instant hot reload without needing to restart.
+
+## Production Package Build
+
+### Pre-publish Build
+
+```bash
+npm run vscode:prepublish
+```
+
+This command runs the full production build pipeline:
+1. `npm run biome:check` - Check code quality
+2. `npm run test` - Run all tests
+3. `npm run compile:clean` - Clean output directory
+4. `npm run compile:esbuild` - Build extension for desktop
+5. `npm run compile:esbuild:web` - Build web extension
+
+### Package the Extension
+
+```bash
+npm run package
+```
+
+This script:
+1. Prepares README for marketplace
+2. Creates `.vsix` package file
+3. Restores original README
+
+**Output**: `jt-view-exports-svg-{version}.vsix`
+
+<Note>
+  The `vscode:prepublish` script is automatically run by `vsce package` before creating the extension package.
+</Note>
+
+## Build Configurations
+
+### TypeScript Configurations
+
+- **`tsconfig.cjs.json`** - CommonJS compilation
+- **`tsconfig.esm.json`** - ES Module compilation
+- **`tsconfig.types.json`** - Type declarations
+- **`client/tsconfig.json`** - Client TypeScript config
+- **`client/tsconfig.app.json`** - Client app config
+- **`client/tsconfig.node.json`** - Client Node config
+
+### Build Tool Configurations
+
+- **`esbuild.config.js`** - ESBuild configuration for extension
+- **`client/vite.config.ts`** - Vite configuration for webview
+- **`biome.json`** - Code formatting and linting
+
+## Development vs Production
+
+| Aspect | Development | Production |
+|--------|-------------|------------|
+| Compilation | TypeScript (`tsc`) | ESBuild |
+| Minification | No | Yes |
+| Source Maps | Yes | No |
+| Tree Shaking | No | Yes |
+| Build Speed | Slower | Faster |
+| Bundle Size | Larger | Optimized |
+
+## Troubleshooting
+
+### Build Errors
+
+**TypeScript errors**:
+```bash
+# Check for type errors
+npx tsc --noEmit
+```
+
+**Client build fails**:
+```bash
+# Rebuild client dependencies
+cd client
+rm -rf node_modules package-lock.json
+npm install
+npm run build
+```
+
+**Path alias issues**:
+```bash
+# Ensure tsc-alias runs after compilation
+npm run compile
+```
+
+### Clean Everything
+
+If you encounter persistent issues:
+
+```bash
+# Clean all build outputs
+npm run compile:clean
+rm -rf client/dist
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+rm -rf client/node_modules client/package-lock.json
+npm run install:all
+
+# Rebuild everything
+npm run client:build
+npm run compile
+```
+
+## Next Steps
+
+- Learn about [testing the extension](/development/testing)
+- Set up your [development environment](/development/setup)
+- Understand the [project architecture](/development/architecture)

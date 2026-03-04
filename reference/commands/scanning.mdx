@@ -1,0 +1,134 @@
+---
+title: "Scanning Command"
+description: "Scan your entire workspace to discover all SVG icon exports"
+icon: "magnifying-glass"
+---
+
+The `JT-View-Exports-SVG.scanning` command performs a comprehensive scan of your workspace to find and catalog all SVG icon components across your project.
+
+## Command Details
+
+<CardGroup cols={2}>
+  <Card title="Command ID" icon="code">
+    `JT-View-Exports-SVG.scanning`
+  </Card>
+  <Card title="Display Title" icon="tag">
+    Start Scanning
+  </Card>
+</CardGroup>
+
+<Card title="Category" icon="folder">
+  View Exports SVG
+</Card>
+
+## Overview
+
+Unlike the [Show Menu](/reference/commands/show-menu) command which processes specific files, the scanning command searches your entire workspace to build a complete inventory of SVG icon exports.
+
+## What Gets Scanned
+
+The scanning process:
+
+1. **Searches the workspace** for JavaScript and TypeScript files
+2. **Respects ignore patterns** from your configuration
+3. **Extracts SVG exports** from discovered files
+4. **Caches results** for faster subsequent access
+5. **Updates the viewer** with the complete icon catalog
+
+### Ignored Directories
+
+By default, the scanner ignores common directories:
+
+<CodeGroup>
+```text Default Ignored Patterns
+**/.git
+**/.github
+**/.husky
+**/.idea
+**/.idx
+**/.vscode*
+**/build
+**/coverage
+**/dist
+**/node_modules
+**/out
+```
+</CodeGroup>
+
+<Tip>
+You can customize ignored directories using the `JT-View-Exports-SVG.ignoreDirectories` configuration setting.
+</Tip>
+
+## Usage
+
+### Running the Scan
+
+There are multiple ways to trigger a workspace scan:
+
+<Steps>
+  <Step title="From Command Palette">
+    1. Open the Command Palette (Ctrl/Cmd + Shift + P)
+    2. Type "View Exports SVG: Start Scanning"
+    3. Press Enter
+  </Step>
+  
+  <Step title="From Viewer Interface">
+    If the viewer is open, look for the scan button in the toolbar (search icon)
+  </Step>
+</Steps>
+
+## Behavior
+
+<AccordionGroup>
+  <Accordion title="When viewer is not open">
+    - Opens a new viewer panel
+    - Initializes the viewer interface
+    - Begins scanning the workspace
+    - Displays progress during the scan
+    - Shows results when complete
+  </Accordion>
+  
+  <Accordion title="When viewer is already open">
+    - Reuses the existing panel
+    - Shows scanning progress
+    - Updates the viewer with new results
+    - Preserves viewer state when possible
+  </Accordion>
+</AccordionGroup>
+
+## Performance Considerations
+
+<Note>
+Scanning large workspaces can take time. The extension caches results to improve subsequent performance.
+</Note>
+
+### Scan Optimization
+
+- Results are cached to avoid redundant scans
+- The `lastScanDate` configuration tracks when the last scan occurred
+- Use [Clear Cache](/reference/commands/clear-cache) if you need to force a fresh scan
+
+### When to Scan
+
+Consider running a scan when:
+
+- You've added new SVG icon files to your project
+- You've reorganized icon components
+- You want to ensure all icons are discoverable
+- Cache data seems outdated
+
+## Configuration
+
+Customize scanning behavior with these settings:
+
+| Setting | Description |
+|---------|-------------|
+| `JT-View-Exports-SVG.ignoreDirectories` | Array of directory patterns to exclude from scanning |
+| `JT-View-Exports-SVG.assetsPath` | Quick-access paths to specific icon directories |
+| `JT-View-Exports-SVG.showNotExportedIcons` | Whether to include non-exported SVG components |
+| `JT-View-Exports-SVG.groupPatterns` | Patterns to organize scanned icons into groups |
+
+## Related Commands
+
+- [Show Menu](/reference/commands/show-menu) - View exports from specific files
+- [Clear Cache](/reference/commands/clear-cache) - Clear cached scan results for a fresh scan

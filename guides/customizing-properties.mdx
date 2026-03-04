@@ -1,0 +1,399 @@
+---
+title: Customizing Properties
+description: Adjust icon size, colors, fill, stroke, and other properties in the interactive playground
+---
+
+The View Exports SVG playground provides a powerful environment to customize and preview your SVG icons with real-time property adjustments. This guide covers all customization options available in the DevTools panel.
+
+## Opening the Playground
+
+The playground (DevTools panel) is where all icon customization happens.
+
+<Steps>
+  <Step title="Select an Icon">
+    Click any icon in the main viewer to select it
+  </Step>
+
+  <Step title="Open DevTools">
+    Click the DevTools icon in the editor title bar, or it may open automatically depending on your settings
+  </Step>
+
+  <Step title="View Live Preview">
+    The selected icon appears in the playground with an interactive code editor
+  </Step>
+</Steps>
+
+<Note>
+  You can configure whether DevTools opens automatically on icon click using the `JT-View-Exports-SVG.defaultClickToOpenDevTools` setting.
+</Note>
+
+## Default Icon Properties
+
+All icons start with default property values that you can customize globally in your VS Code settings.
+
+### Configuration
+
+Add this to your `settings.json`:
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "className": "",
+    "color": "#0a0a0a",
+    "fill": "#0a0a0a",
+    "height": "28",
+    "size": "28",
+    "state": "false",
+    "stroke": "#0a0a0a",
+    "strokeColor": "#0a0a0a",
+    "strokeWidth": "0.2",
+    "style": "{}",
+    "sx": "{}",
+    "width": "28"
+  }
+}
+```
+
+### Property Descriptions
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `className` | string | `""` | CSS class name(s) to apply |
+| `color` | string | `"#0a0a0a"` | Primary color value |
+| `fill` | string | `"#0a0a0a"` | Fill color for SVG paths |
+| `height` | string | `"28"` | Icon height in pixels |
+| `size` | string | `"28"` | Unified size (width and height) |
+| `state` | string | `"false"` | Component state (varies by component) |
+| `stroke` | string | `"#0a0a0a"` | Stroke color for SVG paths |
+| `strokeColor` | string | `"#0a0a0a"` | Alternative stroke color property |
+| `strokeWidth` | string | `"0.2"` | Width of strokes in SVG |
+| `style` | string | `"{}"` | Inline CSS styles as JSON |
+| `sx` | string | `"{}"` | MUI sx prop (if using Material-UI) |
+| `width` | string | `"28"` | Icon width in pixels |
+
+<Tip>
+  These defaults apply to all icons when they first load in the playground. You can override them per-icon during your session.
+</Tip>
+
+## Adjusting Properties in the Playground
+
+The playground provides two ways to customize icons:
+
+### Visual Controls
+
+#### Background Color Picker
+
+Adjust the playground background to preview icons on different surfaces:
+
+<Steps>
+  <Step title="Locate Color Picker">
+    Find the background color control in the playground panel
+  </Step>
+
+  <Step title="Select Color">
+    Click the color picker to choose a background color
+  </Step>
+
+  <Step title="Preview">
+    The icon preview updates instantly with the new background
+  </Step>
+
+  <Step title="Reset">
+    Use the reset button to return to the default background color
+  </Step>
+</Steps>
+
+<Note>
+  Background color changes only affect the playground preview and don't modify the actual SVG component.
+</Note>
+
+#### Expand/Collapse Code Editor
+
+Toggle the code editor visibility to maximize your preview space:
+
+- Click the expand/collapse button to show or hide the code editor
+- The icon preview remains visible in both states
+- Editor state persists during your session
+
+### Code Editor
+
+The integrated Monaco editor provides full code editing capabilities:
+
+#### Features
+
+- **Syntax Highlighting**: JSX/TSX syntax support
+- **IntelliSense**: Auto-completion for component props
+- **Real-Time Preview**: Changes reflect immediately in the preview
+- **Theme Sync**: Matches your VS Code theme automatically
+- **Error Detection**: Highlights syntax errors
+
+#### Editing Component Props
+
+<Steps>
+  <Step title="Locate Component Tag">
+    Find the component in the editor (e.g., `<IconArrowRight />`)
+  </Step>
+
+  <Step title="Add or Modify Props">
+    Add props inline:
+    ```jsx
+    <IconArrowRight 
+      size="32"
+      color="#ff0000"
+      strokeWidth="0.5"
+    />
+    ```
+  </Step>
+
+  <Step title="View Live Preview">
+    The preview updates in real-time as you type
+  </Step>
+
+  <Step title="Copy Modified Code">
+    Use the copy button to copy your customized code
+  </Step>
+</Steps>
+
+#### Reset Code
+
+Revert all changes to the original component:
+
+1. Click the reset button in the playground toolbar
+2. The editor restores the original component code
+3. The preview updates to show the default appearance
+
+<Accordion title="Example: Customizing an Icon">
+  **Original Code:**
+  ```jsx
+  <IconArrowRight />
+  ```
+
+  **Customized Code:**
+  ```jsx
+  <IconArrowRight 
+    size="48"
+    color="#3b82f6"
+    strokeWidth="1"
+    className="icon-arrow"
+    style={{ transform: 'rotate(90deg)' }}
+  />
+  ```
+
+  **Result:** A 48px blue arrow rotated 90 degrees with thicker strokes and a custom class.
+</Accordion>
+
+## Common Customization Patterns
+
+### Size Adjustments
+
+```jsx
+{/* Small icon */}
+<IconArrowRight size="16" />
+
+{/* Medium icon (default) */}
+<IconArrowRight size="28" />
+
+{/* Large icon */}
+<IconArrowRight size="48" />
+
+{/* Custom width and height */}
+<IconArrowRight width="32" height="24" />
+```
+
+### Color Variations
+
+```jsx
+{/* Primary color */}
+<IconArrowRight color="#0a0a0a" />
+
+{/* Brand color */}
+<IconArrowRight fill="#3b82f6" stroke="#3b82f6" />
+
+{/* Transparent fill with visible stroke */}
+<IconArrowRight fill="none" stroke="#000" strokeWidth="1" />
+```
+
+### Stroke Customization
+
+```jsx
+{/* Thin stroke */}
+<IconArrowRight strokeWidth="0.1" />
+
+{/* Medium stroke */}
+<IconArrowRight strokeWidth="0.5" />
+
+{/* Thick stroke */}
+<IconArrowRight strokeWidth="2" />
+```
+
+### CSS and Styling
+
+```jsx
+{/* Inline styles */}
+<IconArrowRight 
+  style={{ 
+    transform: 'rotate(45deg)',
+    opacity: 0.8,
+    cursor: 'pointer'
+  }} 
+/>
+
+{/* CSS classes */}
+<IconArrowRight className="icon-button icon-primary" />
+
+{/* MUI sx prop */}
+<IconArrowRight 
+  sx={{ 
+    color: 'primary.main',
+    '&:hover': { color: 'primary.dark' }
+  }} 
+/>
+```
+
+## Copy Customized Code
+
+Once you've customized an icon, copy the code for use in your project:
+
+<Steps>
+  <Step title="Customize Icon">
+    Adjust properties in the code editor
+  </Step>
+
+  <Step title="Click Copy Button">
+    Click the copy icon in the playground toolbar
+  </Step>
+
+  <Step title="Paste in Project">
+    Paste the customized JSX into your component
+  </Step>
+</Steps>
+
+You'll see a success notification: "Copied to clipboard"
+
+## Property Auto-Completion
+
+The Monaco editor provides IntelliSense for common SVG and React props:
+
+- Type `<IconName ` and press `Ctrl+Space` to see available props
+- Start typing a prop name for filtered suggestions
+- Use arrow keys and Enter to select a suggestion
+
+## Theme Integration
+
+The playground automatically syncs with your VS Code theme:
+
+### Automatic Theme Detection
+
+- **Light Themes**: Light editor background, dark text
+- **Dark Themes**: Dark editor background, light text
+- **High Contrast**: Enhanced contrast for accessibility
+
+### Manual Theme Reload
+
+If the theme doesn't sync properly:
+
+1. Click the **Reload Theme** button in the toolbar
+2. Or run the command: `View Exports SVG: Reload Theme`
+
+## DevTools Settings
+
+### Auto-Open DevTools
+
+```json
+{
+  "JT-View-Exports-SVG.defaultClickToOpenDevTools": true
+}
+```
+
+- **`true`** (default): DevTools opens automatically when you click an icon
+- **`false`**: DevTools remains closed until you manually open it
+
+### Default Expand State
+
+```json
+{
+  "JT-View-Exports-SVG.defaultExpandAll": false
+}
+```
+
+- **`true`**: All component groups expand by default
+- **`false`** (default): Groups start collapsed
+
+## Advanced Customization
+
+### Custom Properties
+
+If your components accept custom props, you can add them in the `defaultIconProperties`:
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "size": "28",
+    "color": "#0a0a0a",
+    "variant": "outline",
+    "animated": "false",
+    "customProp": "value"
+  }
+}
+```
+
+All properties are strings and can be any valid JSON value.
+
+### Style and Sx Props
+
+For complex styling:
+
+```json
+{
+  "JT-View-Exports-SVG.defaultIconProperties": {
+    "style": "{\"transform\": \"rotate(0deg)\", \"opacity\": 1}",
+    "sx": "{\"color\": \"primary.main\", \"fontSize\": \"1.5rem\"}"
+  }
+}
+```
+
+<Note>
+  JSON strings must be properly escaped when defining default values in settings.
+</Note>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Properties not applying">
+    **Issue**: Changes in the editor don't reflect in the preview.
+
+    **Solutions**:
+    - Check for syntax errors in the JSX
+    - Ensure prop names match what your component accepts
+    - Verify the component properly handles the props you're passing
+  </Accordion>
+
+  <Accordion title="Editor theme not matching VS Code">
+    **Issue**: The Monaco editor theme doesn't match your VS Code theme.
+
+    **Solutions**:
+    - Click the **Reload Theme** button
+    - Run command: `View Exports SVG: Reload Theme`
+    - Restart the extension
+  </Accordion>
+
+  <Accordion title="Default properties not loading">
+    **Issue**: Icons don't use your configured default properties.
+
+    **Solutions**:
+    - Verify your `settings.json` syntax is valid JSON
+    - Reload VS Code window
+    - Check that property names match exactly (case-sensitive)
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration" icon="gear" href="/configuration/settings">
+    Explore all extension settings in detail
+  </Card>
+  <Card title="Viewing Icons" icon="eye" href="/guides/viewing-icons">
+    Learn how to open and navigate the viewer
+  </Card>
+</CardGroup>

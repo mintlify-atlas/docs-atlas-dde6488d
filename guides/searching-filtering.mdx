@@ -1,0 +1,194 @@
+---
+title: Searching & Filtering
+description: Find and organize your SVG icons efficiently with powerful search and grouping features
+---
+
+View Exports SVG includes robust search and filtering capabilities to help you quickly locate specific icons in large component libraries. This guide covers how to use the search bar, understand filtering behavior, and organize icons with custom grouping patterns.
+
+## Using the Search Bar
+
+The search bar is located at the top of the View Exports SVG panel and provides real-time filtering of your icon collection.
+
+<Steps>
+  <Step title="Access the Search Bar">
+    The search bar appears automatically when you open the viewer. It's always visible at the top of the dashboard for quick access.
+  </Step>
+
+  <Step title="Enter Search Terms">
+    Type any text into the search field. The extension will filter icons based on:
+    - Component names
+    - File paths
+    - Export names
+    
+    <Note>
+      Search is case-insensitive and uses debounced input (500ms delay) to improve performance with large icon sets.
+    </Note>
+  </Step>
+
+  <Step title="View Results">
+    Filtered results appear instantly below the search bar. Only icons matching your search criteria will be displayed.
+  </Step>
+
+  <Step title="Clear Search">
+    Click the clear button (×) on the right side of the search field to remove your search query and show all icons again.
+  </Step>
+</Steps>
+
+## How Search Works
+
+The search functionality operates with the following behavior:
+
+### Real-Time Filtering
+
+- **Debounced Input**: Search queries are processed 500ms after you stop typing to prevent excessive filtering
+- **Trim Whitespace**: Leading and trailing spaces are automatically removed from search terms
+- **Component Filtering**: The extension sends your query to the VS Code backend, which filters the complete component list
+- **Instant Updates**: Results appear in real-time as you type
+
+### Search Scope
+
+The search covers:
+
+- **Component Names**: All exported SVG component names
+- **File Paths**: Source file locations
+- **Group Labels**: Custom group names (if configured)
+
+<Tip>
+  For large projects with hundreds of icons, use specific search terms to narrow results quickly. For example, search "arrow" to find all arrow-related icons.
+</Tip>
+
+## Grouping Icons
+
+View Exports SVG automatically groups icons by their source file, but you can customize this behavior with grouping patterns.
+
+### Default Grouping
+
+By default, icons are grouped by:
+
+1. **File Path**: Icons from the same source file appear together
+2. **Alphabetical Order**: Groups are sorted alphabetically by label
+3. **Component Name**: Within each group, components are sorted by name
+
+### Custom Group Patterns
+
+You can define custom grouping patterns in your VS Code settings to organize icons by specific criteria.
+
+<Accordion title="Configure Group Patterns">
+  Add the following to your `settings.json`:
+  
+  ```json
+  {
+    "JT-View-Exports-SVG.groupPatterns": {
+      "**/icons/social/**": "Social Media Icons",
+      "**/icons/navigation/**": "Navigation Icons",
+      "**/icons/ui/**": "UI Elements",
+      "**": "Other Icons"
+    }
+  }
+  ```
+  
+  **Pattern Syntax**:
+  - Use glob patterns to match file paths
+  - `**/icons/social/**` matches any file in a `social` subdirectory
+  - `**` acts as a catch-all for unmatched icons
+  - Patterns are evaluated in order - first match wins
+  
+  **Group Labels**:
+  - The value is the display name shown in the UI
+  - If empty, the pattern itself is used as the label
+</Accordion>
+
+### How Grouping Works
+
+The `groupIconsByPattern` function processes groups as follows:
+
+1. **Pattern Matching**: Each icon's source path is tested against defined patterns using minimatch
+2. **Group Assignment**: Icons matching a pattern are assigned to that group
+3. **Aggregation**: Multiple files can contribute to the same group
+4. **Sorting**: Groups are sorted alphabetically, then components within groups are sorted
+
+## Expand and Collapse Groups
+
+Manage group visibility to focus on specific icon sets:
+
+### Individual Groups
+
+- Click the group header to expand or collapse it
+- Expanded groups show all contained icons
+- Collapsed groups display only the header and icon count
+
+### Bulk Actions
+
+Use the toolbar buttons to control all groups at once:
+
+- **Expand All**: Opens all groups simultaneously (icon: `expand-all`)
+- **Collapse All**: Closes all groups simultaneously (icon: `collapse-all`)
+
+<Note>
+  The expand/collapse state is preserved during your session but resets when you close and reopen the viewer.
+</Note>
+
+## Filtering by Export Status
+
+Control whether non-exported icons appear in the viewer:
+
+```json
+{
+  "JT-View-Exports-SVG.showNotExportedIcons": false
+}
+```
+
+- **`true`**: Shows all SVG components, including those not exported from the module
+- **`false`** (default): Only displays exported components
+
+<Tip>
+  Enable `showNotExportedIcons` when developing new components that aren't exported yet, or when auditing your icon library for unused assets.
+</Tip>
+
+## Recent Icons
+
+Quickly access your most recently used icons:
+
+```json
+{
+  "JT-View-Exports-SVG.recentIcons.showIcons": true,
+  "JT-View-Exports-SVG.recentIcons.limitShowIcons": 10
+}
+```
+
+| Setting | Description |
+|---------|-------------|
+| `showIcons` | Enable/disable recent icons section |
+| `limitShowIcons` | Number of recent icons to display (1-50) |
+
+Recent icons appear at the top of the viewer for quick access to frequently used components.
+
+## Performance Tips
+
+For large icon libraries:
+
+<CardGroup cols={2}>
+  <Card title="Use Specific Searches" icon="magnifying-glass">
+    Type specific terms rather than browsing all icons
+  </Card>
+  <Card title="Configure Ignore Directories" icon="folder-minus">
+    Exclude unnecessary folders from scans
+  </Card>
+  <Card title="Use Group Patterns" icon="layer-group">
+    Organize icons into logical categories
+  </Card>
+  <Card title="Collapse Unused Groups" icon="compress">
+    Hide groups you're not currently working with
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Copy & Export" icon="download" href="/guides/copying-exporting">
+    Learn how to export icons and copy code
+  </Card>
+  <Card title="Customize Properties" icon="sliders" href="/guides/customizing-properties">
+    Adjust icon appearance in the playground
+  </Card>
+</CardGroup>

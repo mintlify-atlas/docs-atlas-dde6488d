@@ -1,0 +1,127 @@
+---
+title: "Developer Tools Commands"
+description: "Toggle the DevTools panel to inspect and debug SVG icon properties"
+icon: "screwdriver-wrench"
+---
+
+The Developer Tools commands allow you to open and close an integrated DevTools panel within the View Exports SVG viewer for inspecting and debugging SVG icon properties.
+
+## Commands
+
+<CardGroup cols={2}>
+  <Card title="Open DevTools" icon="folder-open">
+    **Command ID:** `JT-View-Exports-SVG.openDevTools`
+    
+    **Title:** Open Developer Tools
+    
+    **Icon:** Custom tools icon (filled)
+  </Card>
+  
+  <Card title="Close DevTools" icon="folder-closed">
+    **Command ID:** `JT-View-Exports-SVG.closeDevTools`
+    
+    **Title:** Close Developer Tools
+    
+    **Icon:** Custom tools icon (outline)
+  </Card>
+</CardGroup>
+
+<Card title="Category" icon="folder">
+  View Exports SVG
+</Card>
+
+## Availability
+
+Both commands are available when:
+
+<Note>
+- The View Exports SVG webview panel is active (`activeWebviewPanelId == 'JT-View-Exports-SVG'`)
+- Actions are enabled (`JT-View-Exports-SVG.showActions == true`)
+</Note>
+
+### Additional Conditions
+
+- **Open DevTools**: Only shown when DevTools is currently closed
+  - `!JT-View-Exports-SVG.isOpenDevTools`
+
+- **Close DevTools**: Only shown when DevTools is currently open
+  - `JT-View-Exports-SVG.isOpenDevTools`
+
+## Usage
+
+### From the Editor Title Bar
+
+When the View Exports SVG panel is active, you'll see a tools icon in the editor title bar:
+
+<Steps>
+  <Step title="Opening DevTools">
+    Click the **filled tools icon** in the title bar to open the DevTools panel
+  </Step>
+  
+  <Step title="Closing DevTools">
+    Click the **outline tools icon** in the title bar to close the DevTools panel
+  </Step>
+</Steps>
+
+### From Command Palette
+
+<Steps>
+  <Step title="Open Command Palette">
+    Press Ctrl/Cmd + Shift + P
+  </Step>
+  
+  <Step title="Search for command">
+    Type "View Exports SVG: Open Developer Tools" or "View Exports SVG: Close Developer Tools"
+  </Step>
+  
+  <Step title="Execute">
+    Press Enter to toggle the DevTools state
+  </Step>
+</Steps>
+
+## DevTools Panel Features
+
+The DevTools panel provides:
+
+- **Real-time property inspection** for selected SVG icons
+- **Interactive property editing** to test different configurations
+- **SVG code preview** showing the current icon markup
+- **Attribute debugging** to understand icon rendering
+
+<Tip>
+The DevTools panel is especially useful when customizing icon properties or troubleshooting rendering issues.
+</Tip>
+
+## Configuration
+
+### Default Click-to-Open Behavior
+
+Control whether clicking on an icon opens DevTools automatically:
+
+```json settings.json
+{
+  "JT-View-Exports-SVG.defaultClickToOpenDevTools": true
+}
+```
+
+<AccordionGroup>
+  <Accordion title="When set to true (default)">
+    Clicking an icon in the viewer automatically opens the DevTools panel
+  </Accordion>
+  
+  <Accordion title="When set to false">
+    DevTools must be manually opened using the command or title bar button
+  </Accordion>
+</AccordionGroup>
+
+## Button Placement
+
+The DevTools toggle button appears in the editor title bar at:
+
+- **Navigation group position 2** (`navigation@2`)
+- Located between the expand/collapse controls and the clear cache button
+
+## Related Commands
+
+- [Show Menu](/reference/commands/show-menu) - Open the viewer to use DevTools
+- [Reload Theme](/reference/commands/reload-theme) - Refresh theme integration in DevTools

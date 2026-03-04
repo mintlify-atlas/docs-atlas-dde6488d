@@ -1,0 +1,192 @@
+---
+title: SVG Support
+description: Learn about the types of SVG exports and component formats supported by View Exports SVG
+icon: code
+---
+
+View Exports SVG provides comprehensive support for various SVG component formats in JavaScript and TypeScript projects. The extension uses Babel parser to analyze your code and extract SVG components automatically.
+
+## Supported Export Types
+
+The extension recognizes and processes multiple export patterns through its Babel-based parser implementation.
+
+### Function Declarations
+
+Standard function declarations that return JSX elements containing SVG components:
+
+```tsx
+export function IconName(props) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      {/* SVG content */}
+    </svg>
+  )
+}
+```
+
+<Note>
+  Function declarations are parsed at `src/utilities/svg/extracts.ts:122` and analyzed to extract the returned JSX element.
+</Note>
+
+### Arrow Function Expressions
+
+Arrow functions assigned to variables, supporting both implicit and explicit returns:
+
+```tsx
+// Implicit return
+export const IconName = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    {/* SVG content */}
+  </svg>
+)
+
+// Explicit return
+export const IconName = (props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      {/* SVG content */}
+    </svg>
+  )
+}
+```
+
+<Tip>
+  The extension analyzes both `JSXElement` and `JSXFragment` node types, and can extract components from block statements with return statements.
+</Tip>
+
+## Named vs Default Exports
+
+The extension supports both named and default export patterns:
+
+### Named Exports
+
+```tsx
+// Direct named export
+export const HomeIcon = () => <svg>...</svg>
+
+// Export after declaration
+const HomeIcon = () => <svg>...</svg>
+export { HomeIcon }
+
+// Re-exported from another module
+export { HomeIcon } from './icons'
+```
+
+### Default Exports
+
+```tsx
+// Default function export
+export default function Icon() {
+  return <svg>...</svg>
+}
+
+// Default arrow function export
+const Icon = () => <svg>...</svg>
+export default Icon
+```
+
+## JSX/TSX Component Formats
+
+The extension uses the Babel parser with `jsx` and `typescript` plugins to support modern JavaScript and TypeScript syntax.
+
+### Required Attributes
+
+For a component to be recognized as a valid SVG:
+
+<Warning>
+  The root element must include the `xmlns="http://www.w3.org/2000/svg"` attribute. Components without this attribute will fail validation at `src/utilities/svg/SVGComponent.ts:42`.
+</Warning>
+
+```tsx
+// Valid - includes xmlns
+export const ValidIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M..." />
+  </svg>
+)
+
+// Invalid - missing xmlns
+export const InvalidIcon = () => (
+  <svg viewBox="0 0 24 24">
+    <path d="M..." />
+  </svg>
+)
+```
+
+### Component Props Support
+
+The extension analyzes component parameters and extracts prop types:
+
+```tsx
+// Object destructuring
+export const Icon = ({ size, color, className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
+    <path fill={color} className={className} d="M..." />
+  </svg>
+)
+
+// Rest props
+export const Icon = ({ size, ...restProps }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} {...restProps}>
+    <path d="M..." />
+  </svg>
+)
+```
+
+<Note>
+  Component parameters are analyzed at `src/utilities/svg/analyze.ts:17` using the `getNodeParams` function to extract prop information.
+</Note>
+
+## Parser Configuration
+
+The Babel parser is configured with specific plugins to ensure broad syntax support:
+
+```typescript
+babelParser.parse(content, {
+  sourceType: 'module',
+  plugins: ['jsx', 'typescript'],
+})
+```
+
+This configuration enables:
+- **JSX syntax** - React-style JSX elements and fragments
+- **TypeScript syntax** - Type annotations, interfaces, and TypeScript-specific features
+- **ES Modules** - Import/export statements and module-level code
+
+## File Type Support
+
+Based on the `package.json` configuration, the extension activates for files matching:
+
+- `.js` - JavaScript files
+- `.jsx` - JavaScript with JSX
+- `.ts` - TypeScript files (excluding `.d.ts` definition files)
+- `.tsx` - TypeScript with JSX
+
+<Tip>
+  The extension automatically excludes `.d.ts` definition files from scanning, as specified in the context menu configuration at `package.json:101`.
+</Tip>
+
+## Non-Exported Components
+
+By default, the extension focuses on exported components, but you can configure it to show non-exported SVG components:
+
+```json
+{
+  "JT-View-Exports-SVG.showNotExportedIcons": true
+}
+```
+
+When enabled, the extension will also display SVG components that are defined but not exported from the file.
+
+## Component Validation
+
+The extension performs several validation checks:
+
+1. **Valid SVG Tag** - Ensures the root element is a recognized SVG tag (not Fragment)
+2. **xmlns Attribute** - Validates the presence and value of the SVG namespace
+3. **Component Structure** - Analyzes the JSX tree to extract properties and children
+4. **Error Handling** - Captures and reports parsing errors with file location context
+
+<Note>
+  Validation occurs at `src/utilities/svg/SVGComponent.ts:23` in the `validateOpeningElement` function.
+</Note>

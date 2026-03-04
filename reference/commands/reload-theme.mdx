@@ -1,0 +1,158 @@
+---
+title: "Reload Theme Command"
+description: "Refresh the VS Code theme integration in the SVG viewer playground"
+icon: "rotate"
+---
+
+The `JT-View-Exports-SVG.reloadTheme` command reloads the built-in editor theme integration in the playground, ensuring the viewer reflects your current VS Code theme settings.
+
+## Command Details
+
+<CardGroup cols={2}>
+  <Card title="Command ID" icon="code">
+    `JT-View-Exports-SVG.reloadTheme`
+  </Card>
+  <Card title="Display Title" icon="tag">
+    Reload the built-in editor theme in the playground
+  </Card>
+</CardGroup>
+
+<Card title="Category" icon="folder">
+  View Exports SVG
+</Card>
+
+**Icon:** `$(sync)` (sync/refresh icon)
+
+## Availability
+
+<Note>
+This command is only available when the View Exports SVG webview panel is active.
+
+**Enablement condition:** `activeWebviewPanelId == 'JT-View-Exports-SVG'`
+</Note>
+
+## Overview
+
+The reload theme command synchronizes the viewer's appearance with your current VS Code theme settings. This is useful when:
+
+- You've changed your VS Code color theme
+- Theme colors aren't displaying correctly in the viewer
+- You've made custom theme modifications
+- The viewer theme seems out of sync
+
+## What Gets Reloaded
+
+When you reload the theme, the extension:
+
+1. **Retrieves current theme settings** from VS Code
+2. **Reloads extension theme data** specific to your workspace
+3. **Updates editor configuration** in the viewer
+4. **Sends theme information** to the webview panel
+5. **Refreshes visual elements** to match the current theme
+
+### Theme Components Updated
+
+<CardGroup cols={2}>
+  <Card title="Extension Theme" icon="palette">
+    Custom theme data and color schemes for the extension
+  </Card>
+  
+  <Card title="Editor Config" icon="gear">
+    Editor-specific settings and preferences
+  </Card>
+  
+  <Card title="Theme Kind" icon="circle-half-stroke">
+    Light, dark, or high-contrast theme mode
+  </Card>
+  
+  <Card title="Visual Elements" icon="paintbrush">
+    UI colors, backgrounds, and visual styling
+  </Card>
+</CardGroup>
+
+## Usage
+
+### From the Editor Title Bar
+
+The reload theme button may be available in the viewer's toolbar (look for the sync icon).
+
+### From Command Palette
+
+<Steps>
+  <Step title="Open Command Palette">
+    Press Ctrl/Cmd + Shift + P
+  </Step>
+  
+  <Step title="Search for command">
+    Type "View Exports SVG: Reload the built-in editor theme in the playground"
+  </Step>
+  
+  <Step title="Execute">
+    Press Enter to reload the theme
+  </Step>
+</Steps>
+
+## Behavior
+
+<AccordionGroup>
+  <Accordion title="When theme is found">
+    - Extension theme data is reloaded
+    - Theme information is sent to the webview
+    - Editor configuration is updated
+    - Visual elements refresh automatically
+    - Viewer reflects the current VS Code theme
+  </Accordion>
+  
+  <Accordion title="When theme is not found">
+    - An information message is displayed: "No theme found for the current workspace"
+    - The viewer continues using the previously loaded theme
+    - You may need to check your workspace theme configuration
+  </Accordion>
+</AccordionGroup>
+
+## When to Use Reload Theme
+
+<CardGroup cols={2}>
+  <Card title="Theme Changed" icon="palette">
+    You've switched to a different VS Code color theme
+  </Card>
+  
+  <Card title="Theme Modified" icon="pen">
+    You've edited custom theme settings
+  </Card>
+  
+  <Card title="Appearance Issues" icon="triangle-exclamation">
+    Colors or styling don't look correct in the viewer
+  </Card>
+  
+  <Card title="Workspace Switch" icon="folder-tree">
+    You've switched to a workspace with different theme settings
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Theme Not Applying
+
+If the theme doesn't reload correctly:
+
+1. **Check VS Code theme**: Ensure your VS Code theme is properly installed and active
+2. **Reload window**: Try reloading the entire VS Code window (Developer: Reload Window)
+3. **Check workspace settings**: Verify workspace-specific theme settings
+4. **Restart extension**: Close and reopen the View Exports SVG panel
+
+### No Theme Found Message
+
+If you see "No theme found for the current workspace":
+
+<Tip>
+This usually means the extension couldn't locate theme data for your workspace. Try:
+- Ensuring you're in a valid workspace
+- Checking if your theme supports the required theme APIs
+- Switching to a different theme and reloading
+</Tip>
+
+## Related Commands
+
+- [Developer Tools](/reference/commands/dev-tools) - DevTools also reflect theme changes
+- [Show Menu](/reference/commands/show-menu) - Open the viewer to use theme features

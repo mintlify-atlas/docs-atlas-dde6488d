@@ -1,0 +1,214 @@
+---
+title: Contributing Guidelines
+description: Learn how to contribute to the View Exports SVG extension
+icon: code-pull-request
+---
+
+We appreciate your interest in contributing to View Exports SVG! Contributions are essential to improving and growing this extension.
+
+## Reporting Issues
+
+If you encounter a bug or have an idea for a new feature, please [create an issue](https://github.com/JairTorres1003/JT-View-Exports-SVG/issues) in our repository.
+
+<Note type="tip">
+Be sure to provide all necessary information, such as details about the problem or the new functionality you're suggesting. Include:
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Screenshots or error messages if applicable
+- Your VS Code version and extension version
+</Note>
+
+## Contributing Code
+
+If you want to contribute code, follow these steps:
+
+<Accordion title="Step 1: Fork the Repository">
+
+Fork the 'View Exports SVG' repository to your GitHub account.
+
+</Accordion>
+
+<Accordion title="Step 2: Clone Your Fork">
+
+Clone your fork to your local machine:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/JT-View-Exports-SVG.git
+```
+
+</Accordion>
+
+<Accordion title="Step 3: Create a Branch">
+
+Create a branch for your contribution:
+
+```bash
+git checkout -b feature/<my-contribution>
+```
+
+Use descriptive branch names:
+- `feature/` for new features
+- `fix/` for bug fixes
+- `docs/` for documentation updates
+- `refactor/` for code refactoring
+
+</Accordion>
+
+<Accordion title="Step 4: Make Your Changes">
+
+Make your changes and ensure you follow the project's coding style and best practices.
+
+**Coding Standards:**
+- The project uses **Biome** for linting and formatting (replaces ESLint and Prettier)
+- Follow the existing code style and conventions
+- Write clear, descriptive commit messages
+- Add comments for complex logic
+- Ensure your code is compatible with the minimum VSCode version (`^1.109.0`)
+
+</Accordion>
+
+<Accordion title="Step 5: Commit Your Changes">
+
+Commit your changes with a descriptive message:
+
+```bash
+git commit -m "Add my contribution"
+```
+
+**Commit Message Guidelines:**
+- Use the imperative mood ("Add feature" not "Added feature")
+- Be concise but descriptive
+- Reference issue numbers when applicable
+
+</Accordion>
+
+<Accordion title="Step 6: Push to Your Fork">
+
+Push your changes to your fork:
+
+```bash
+git push origin my-contribution
+```
+
+</Accordion>
+
+<Accordion title="Step 7: Open a Pull Request">
+
+Open a [Pull Request](https://github.com/JairTorres1003/JT-View-Exports-SVG/pulls) in our main repository.
+
+**PR Guidelines:**
+- Describe your changes in detail
+- Provide context for your contribution
+- Link to any related issues
+- Include screenshots or videos for UI changes
+- Ensure all tests pass
+
+</Accordion>
+
+## Local Development
+
+If you want to run the extension in your local environment to test your changes, follow these steps:
+
+### Setup
+
+<Accordion title="1. Clone the Repository">
+
+```bash
+git clone https://github.com/JairTorres1003/JT-View-Exports-SVG.git
+```
+
+</Accordion>
+
+<Accordion title="2. Install Dependencies">
+
+```bash
+npm run install:all
+```
+
+This will install all necessary dependencies for both the extension and the webview UI.
+
+</Accordion>
+
+<Accordion title="3. Build the Webview UI">
+
+```bash
+npm run client:build
+```
+
+The project now uses **Vite** instead of Webpack for significantly faster builds.
+
+</Accordion>
+
+<Accordion title="4. Compile the Extension">
+
+```bash
+npm run compile
+```
+
+</Accordion>
+
+<Accordion title="5. Launch Extension">
+
+Press `F5` to start a new instance of Visual Studio Code with the extension loaded.
+
+</Accordion>
+
+### Development Scripts
+
+- `npm run biome:format` - Auto-format code using Biome
+- `npm run biome:lint` - Run linter
+- `npm run client:dev` - Start Vite dev server with HMR
+- `npm run client:build` - Build webview UI for production
+- `npm run compile` - Compile the extension
+
+<Note type="info">
+**Development Requirements:**
+- Node.js 22.x (recommended)
+- VS Code `^1.109.0` or higher
+- Understanding of TypeScript and React
+</Note>
+
+## Contribution Guidelines
+
+### Code Quality
+
+- Follow the project's coding style (enforced by Biome)
+- Write clean, maintainable code
+- Add appropriate comments and documentation
+- Test your changes thoroughly
+
+### Compatibility
+
+- Ensure changes are compatible with the minimum VSCode version
+- Test on multiple platforms if possible (Windows, macOS, Linux)
+- Maintain backward compatibility when possible
+
+### Development Workflow
+
+- Keep pull requests focused on a single feature or fix
+- Write meaningful commit messages
+- Update documentation when adding new features
+- Follow the project's branching strategy
+
+### Testing
+
+- Test your changes in a development VS Code instance
+- Verify the extension works with different file types and project structures
+- Check for performance impacts
+- Ensure no regressions in existing functionality
+
+## Getting Help
+
+If you need help or have questions:
+
+- Check the [official documentation](https://view-exports-svg.vercel.app/)
+- Open an issue with the "question" tag
+- Join discussions in existing issues and pull requests
+
+## Code of Conduct
+
+Please note that this project follows our [Code of Conduct](/development/code-of-conduct). By participating, you are expected to uphold this code.
+
+<Note type="success">
+Thank you for contributing to View Exports SVG! Your efforts help make this extension better for everyone.
+</Note>
