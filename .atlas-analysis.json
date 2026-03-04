@@ -1,0 +1,129 @@
+{
+  "projectType": "frontend",
+  "projectName": "View Exports SVG",
+  "projectDescription": "A Visual Studio Code extension that streamlines SVG icon management with an interactive playground, workspace scanning, and advanced DevTools panel.",
+  "theme": "palm",
+  "primaryColor": "#ebd7a7",
+  "lightColor": "#83b9c3",
+  "darkColor": "#2b3c58",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/devtools-panel",
+              "features/interactive-playground",
+              "features/workspace-scanning",
+              "features/icon-management"
+            ]
+          },
+          {
+            "group": "Usage Guide",
+            "pages": [
+              "guides/viewing-icons",
+              "guides/searching-filtering",
+              "guides/copying-exporting",
+              "guides/customizing-properties"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/settings",
+              "configuration/assets-path",
+              "configuration/ignore-directories",
+              "configuration/default-properties",
+              "configuration/group-patterns"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Commands",
+            "pages": [
+              "reference/commands/show-menu",
+              "reference/commands/scanning",
+              "reference/commands/dev-tools",
+              "reference/commands/expand-collapse",
+              "reference/commands/reload-theme",
+              "reference/commands/clear-cache"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "reference/svg-support",
+              "reference/framework-compatibility",
+              "reference/troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Development",
+        "groups": [
+          {
+            "group": "Contributing",
+            "pages": [
+              "development/setup",
+              "development/architecture",
+              "development/building",
+              "development/testing"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "development/changelog",
+              "development/contributing-guidelines",
+              "development/code-of-conduct"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Advanced DevTools Panel with component viewer and management tools",
+    "Interactive Playground with real-time code editor",
+    "Workspace-wide SVG component scanning",
+    "Component management with favorites and recently used icons",
+    "Multiple viewing methods (context menu, command palette, drag-and-drop)",
+    "Copy component names, download as SVG/PNG, open source files",
+    "React, Preact, and JavaScript/TypeScript framework support",
+    "Native VS Code theme integration"
+  ],
+  "publicApiSurface": [
+    "JT-View-Exports-SVG.showMenu",
+    "JT-View-Exports-SVG.scanning",
+    "JT-View-Exports-SVG.reloadTheme",
+    "JT-View-Exports-SVG.collapseAll",
+    "JT-View-Exports-SVG.expandAll",
+    "JT-View-Exports-SVG.openDevTools",
+    "JT-View-Exports-SVG.closeDevTools",
+    "JT-View-Exports-SVG.clearCache",
+    "JT-View-Exports-SVG.defaultExpandAll",
+    "JT-View-Exports-SVG.defaultClickToOpenDevTools",
+    "JT-View-Exports-SVG.assetsPath",
+    "JT-View-Exports-SVG.ignoreDirectories",
+    "JT-View-Exports-SVG.defaultIconProperties",
+    "JT-View-Exports-SVG.showNotExportedIcons",
+    "JT-View-Exports-SVG.groupPatterns",
+    "JT-View-Exports-SVG.recentIcons.showIcons",
+    "JT-View-Exports-SVG.recentIcons.limitShowIcons"
+  ]
+}
